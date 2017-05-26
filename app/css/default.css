@@ -1,0 +1,63 @@
+@charset 'UTF-8'
+
+html {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  background-color: #CCCCCC;
+  display: inline;
+}
+
+/* . ：classセレクタ */
+div.window {
+    min-width: 1240px;
+    min-height: 800px;
+    /* ブロック要素（改行が入らないので標準で縦並び）を横に並べる場合、 display:flexを指定する*/
+    display: flex;
+    
+    
+}
+
+div.control-panel {
+  min-width: 15%;
+  min-height: 100%;
+  position:relative;
+  background-color: #E2FFC0;
+    
+}
+
+div.menu-list { 
+
+    /* absolute → static以外を指定された親要素を基準とした絶対位置  */
+    /* 要素を親を基準にして配置したい（右下など）場合、親をstatic以外（relative）にするのを忘れないこと */
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
+button.menu-button {
+    /* インライン要素（改行が入らないので標準で横並び）を横に並べる場合、 display:blockを指定する*/
+    display: block;
+    margin: 10px;
+  
+}
+
+
+
+div.canvas-panel {  
+  min-width: 65%;
+  min-height: 100%;
+  background-color: #FFFFFF;
+}
+
+div.property-panel {
+  min-width: 20%;
+  min-height: 100%;
+  background-color: #0D3832;
+}
