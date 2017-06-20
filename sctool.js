@@ -1,5 +1,5 @@
 /**
- * index.js
+ * sctool.js
  * 
  * @author yuki
  */

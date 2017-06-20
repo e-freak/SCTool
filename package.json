@@ -1,10 +1,11 @@
 {
-  "name": "SCTool",
+  "name": "sctool",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "sctool.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "compile": "gulp compile",
+    "test": "gulp unit-test"
   },
   "repository": {
     "type": "git",

@@ -7,8 +7,6 @@ html {
 }
 
 body {
-  width: 100%;
-  height: 100%;
   margin: 0px;
   background-color: #CCCCCC;
   display: inline;
@@ -48,8 +46,6 @@ button.menu-button {
   
 }
 
-
-
 div.canvas-panel {  
   min-width: 65%;
   min-height: 100%;
@@ -60,4 +56,22 @@ div.property-panel {
   min-width: 20%;
   min-height: 100%;
   background-color: #0D3832;
+  display: block;
+  /* visibility: visible;*/
+}
+
+div.guest-panel {
+  min-width: 20%;
+  min-height: 100%;
+  background-color: #AA55AA;
+  display: none;
+  /* visibility: hidden;*/
+}
+
+div.table-panel {
+  min-width: 20%;
+  min-height: 100%;
+  background-color: #3245AA;
+  display: none;
+  /* visibility: hidden;*/
 }
