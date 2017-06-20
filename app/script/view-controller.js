@@ -18,24 +18,24 @@ var ViewController = (function () {
     _createClass(ViewController, [{
         key: 'initialize',
         value: function initialize() {
-            this._view.getElementById('guest').addEventListener('click', this.onClickGuestButton);
-            this._view.getElementById('table').addEventListener('click', this.onClickTableButton);
+            // alert(this._view.getElementById('guest-button')); // 表示可能
+            this._view.getElementById('guest-button').addEventListener('click', this.onClickGuestButton.bind(this));
+            this._view.getElementById('table-button').addEventListener('click', this.onClickTableButton.bind(this));
         }
     }, {
         key: 'onClickGuestButton',
         value: function onClickGuestButton() {
-            alert("Guestボタンが押下されました");
+
             this._view.getElementById('property-panel').style.display = 'none';
             this._view.getElementById('guest-panel').style.display = 'block';
             this._view.getElementById('table-panel').style.display = 'none';
-            //this._view.getElementById('property-panel').style.visiblity = 'hidden';
-            //this._view.getElementById('guest-panel').style.visiblity = 'visible';
-            //this._view.getElementById('table-panel').style.visiblity = 'hidden';
         }
     }, {
         key: 'onClickTableButton',
         value: function onClickTableButton() {
-            alert("Tableボタンが押下されました");
+            this._view.getElementById('property-panel').style.display = 'none';
+            this._view.getElementById('guest-panel').style.display = 'none';
+            this._view.getElementById('table-panel').style.display = 'block';
         }
     }]);
 

@@ -13,26 +13,28 @@
     <!-- @ 文書構造の場合は構造化タグで区切る-->
     <div class="window">
         <div class="control-panel">
-            <div class="menu-list">
-            <button id="guest" class="menu-button" >Guest</button>
-            <button id="tableset" class="menu-button" >Table</button>
-            <button id="export" class="menu-button" >Export</button>
+            <div class="button-list">
+            <button id="guest-button" class="menu-button" >Guest</button>
+            <button id="table-button" class="menu-button" >Table</button>
+            <button id="export-button" class="menu-button" >Export</button>
             </div>
         </div>
-        <div class="canvas-panel">
+        <div id="canvas-panel" class="canvas-panel">
             <canvas id="seating_chart"/>
         </div>
-        <div class="property-panel"></div>
-        <div class="guest-panel"></div>
-            <div class="guest-menu">
+        <div id="property-panel" class="property-panel"></div>
+        <div id="guest-panel" class="guest-panel">
+          <div class="guest-menu">
+            <div class="header">
               <title>guest</title>
               <button id="add" class="add-button" >Add</button>
             </div>
-            <ul>
-              <li class="guest-list-title"><span class="icon">アイコン</span><span style="name">名前</span></li>
+            <ul class="list">
+              <li class="title"><span class="icon">アイコン</span><span style="name">名前</span></li>
             </ul>
-
-        <div class="table-panel"></div>
+          </div>
+        </div>
+        <div id="table-panel" class="table-panel"></div>
 
 
     </div>

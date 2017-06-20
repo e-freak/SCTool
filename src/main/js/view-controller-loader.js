@@ -1,3 +1,4 @@
+// HTMLからのスコープでパスを設定する
 import ViewController from '../script/view-controller';
 
 global.window.addEventListener('DOMContentLoaded', () => {
