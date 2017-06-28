@@ -19,7 +19,7 @@ body {
 }
 
 /* . ：classセレクタ */
-div.window {
+div.main-window {
   width: 1240px;
   height: 800px;
   /* ブロック要素（改行が入るので標準で縦並び）を横に並べる場合、 display:flexを指定する*/
@@ -83,5 +83,14 @@ div.table-panel {
   width: 20%;
   height: 100%;
   background-color: #3245AA;
+  
+}
+
+div.twitter-panel {
+  display: none;
+  /*visibility: hidden;*/
+  width: 20%;
+  height: 100%;
+  background-color: yellow;
   
 }

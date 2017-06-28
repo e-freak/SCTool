@@ -1,0 +1,35 @@
+@charset 'UTF-8'
+
+/*
+表示方式
+
+大きさ
+配置方式
+位置
+マージン
+色
+*/
+
+/* > 子セレクタ */
+.media-body > .user-name {
+    padding-right: 4px;
+} 
+
+.media-body > .user-screen_name {
+    color: darkgray;
+} 
+
+.media-body > .text {
+    white-space: normal;
+} 
+
+.media-body > .media-img {
+    display: block;
+    width: 50%;
+    height: auto;
+} 
+
+.media-body > .icon-retweet {
+    font-size: x-small;
+    color: darkgray;
+} 

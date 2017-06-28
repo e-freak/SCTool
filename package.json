@@ -30,6 +30,11 @@
     "gulp-mocha": "^4.3.1",
     "gulp-util": "^3.0.8",
     "mocha": "^3.4.1",
-    "through2": "^2.0.3"
+    "through2": "^2.0.3",
+    "babel-plugin-transform-react-jsx": "^6.8.9",
+    "babel-register": "^6.9.0",
+    "react": "^15.1.0",
+    "react-dom": "15.6.1",
+    "twit": "2.2.9"
   }
 }
