@@ -2,10 +2,13 @@
 import React from 'react';
 import T from '../services/twitter';
 
+
+
 export default class TwitterContent extends React.Component {
 
     constructor(props) {
         //alert('TwitterContent constractor');
+        // propは値を変更しない、stateは動的変更する変数
         super(props);
         this.state = {tweets: []};
     }
@@ -17,6 +20,7 @@ export default class TwitterContent extends React.Component {
             // コンポーネントツリーを返す
             // electronでMacライクなUIを作成するPhoton CSSテンプレートを利用する→classNemeはそのクラス
             // {...}はJSXの仕組み　任意のJavascript式を埋め込む
+            // 親のstatueを渡すと、子はthis.propsからアクセスできる
             <div className='window'>
                 <div id='window-content' className='window-content'>
                     <Timeline tweets={this.state.tweets}/>
@@ -25,6 +29,7 @@ export default class TwitterContent extends React.Component {
         );
     }
 
+    // DOMコンポーネント作成後に実行されるファンクション
     componentDidMount(){
         T.get('statuses/home_timeline')
         .catch(error => { console.log(error); })
@@ -49,34 +54,24 @@ class Timeline extends React.Component {
 
     render(){
         alert('TimeLine render');
-        const tweets = this.props.tweets.map((tweet) => {
-             return <li className='list-group-item'>
-                <img src="../image/icontest.png" className='img-rounded media-object pull-left' width='32' height='32'/>     
-            </li>;
-            });
-            
-        return (
-            <ul className='list-group'>{tweets}</ul>
-        );
         
-        /*
+        //map() メソッドは、与えられた関数を配列のすべての要素に対して呼び出し、その結果からなる新しい配列を生成します。
         const tweets = this.props.tweets.map((tweet) => {
-             return <Tweet tweet={tweet} key={tweet.id} />;
-             });
+            //Tweetクラスにtweetプロパティを追加してTweetクラスで使えるようにしている
+            return <Tweet tweet={tweet} key={tweet.id}/>;
+        });
     
         return (
             <ul className='list-group'>{tweets}</ul>
         );
-        */
     }
 } 
-
 
 class Tweet extends React.Component {
 
     render(){
         alert('Tweet render');
-        /*
+        
         const isRetweet = this.props.tweet.hasOwnProperty('retweeted_status');
         const status = isRetweet ? this.props.tweet.retweeted_status : this.props.tweet;
         const media = status.entities.media || [];
@@ -95,6 +90,6 @@ class Tweet extends React.Component {
                 </div>                
             </li>
         );
-        */
+        
     }
 } 

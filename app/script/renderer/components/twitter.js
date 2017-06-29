@@ -30,6 +30,7 @@ var TwitterContent = (function (_React$Component) {
         _classCallCheck(this, TwitterContent);
 
         //alert('TwitterContent constractor');
+        // propは値を変更しない、stateは動的変更する変数
         _get(Object.getPrototypeOf(TwitterContent.prototype), 'constructor', this).call(this, props);
         this.state = { tweets: [] };
     }
@@ -44,6 +45,7 @@ var TwitterContent = (function (_React$Component) {
                 // コンポーネントツリーを返す
                 // electronでMacライクなUIを作成するPhoton CSSテンプレートを利用する→classNemeはそのクラス
                 // {...}はJSXの仕組み　任意のJavascript式を埋め込む
+                // 親のstatueを渡すと、子はthis.propsからアクセスできる
                 _react2['default'].createElement(
                     'div',
                     { className: 'window' },
@@ -55,6 +57,8 @@ var TwitterContent = (function (_React$Component) {
                 )
             );
         }
+
+        // DOMコンポーネント作成後に実行されるファンクション
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
@@ -104,12 +108,11 @@ var Timeline = (function (_React$Component2) {
         key: 'render',
         value: function render() {
             alert('TimeLine render');
+
+            //map() メソッドは、与えられた関数を配列のすべての要素に対して呼び出し、その結果からなる新しい配列を生成します。
             var tweets = this.props.tweets.map(function (tweet) {
-                return _react2['default'].createElement(
-                    'li',
-                    { className: 'list-group-item' },
-                    _react2['default'].createElement('img', { src: '../image/icontest.png', className: 'img-rounded media-object pull-left', width: '32', height: '32' })
-                );
+                //Tweetクラスにtweetプロパティを追加してTweetクラスで使えるようにしている
+                return _react2['default'].createElement(Tweet, { tweet: tweet, key: tweet.id });
             });
 
             return _react2['default'].createElement(
@@ -117,15 +120,6 @@ var Timeline = (function (_React$Component2) {
                 { className: 'list-group' },
                 tweets
             );
-
-            /*
-            const tweets = this.props.tweets.map((tweet) => {
-                 return <Tweet tweet={tweet} key={tweet.id} />;
-                 });
-                 return (
-                <ul className='list-group'>{tweets}</ul>
-            );
-            */
         }
     }]);
 
@@ -145,25 +139,51 @@ var Tweet = (function (_React$Component3) {
         key: 'render',
         value: function render() {
             alert('Tweet render');
-            /*
-            const isRetweet = this.props.tweet.hasOwnProperty('retweeted_status');
-            const status = isRetweet ? this.props.tweet.retweeted_status : this.props.tweet;
-            const media = status.entities.media || [];
+
+            var isRetweet = this.props.tweet.hasOwnProperty('retweeted_status');
+            var status = isRetweet ? this.props.tweet.retweeted_status : this.props.tweet;
+            var media = status.entities.media || [];
             // アロー関数と無名関数はthisの扱いが異なる
-            const firstImage = media.find((item) => { return item.type === 'photo' ;});
-             return (
-                <li className='list-group-item'>
-                    <img src={status.user.profile_image_url_https} className='img-rounded media-object pull-left' width='32' height='32'/>
-                    <div className='media-body'>
-                        <strong className="user-name"> {status.user.name} </strong>
-                        <span className="user-screen_name"> @{status.user.screen_name} </span>
-                        <p className="text">{status.text}</p>
-                        { firstImage ? <img src={firstImage.media_url_https} className='img-rounded media-object media-img' /> : null }
-                        { isRetweet ? <span className="icon icon-retweet">Retweeted by {this.props.tweet.user.name} </span> : null }
-                    </div>                
-                </li>
+            var firstImage = media.find(function (item) {
+                return item.type === 'photo';
+            });
+
+            return _react2['default'].createElement(
+                'li',
+                { className: 'list-group-item' },
+                _react2['default'].createElement('img', { src: status.user.profile_image_url_https, className: 'img-rounded media-object pull-left', width: '32', height: '32' }),
+                _react2['default'].createElement(
+                    'div',
+                    { className: 'media-body' },
+                    _react2['default'].createElement(
+                        'strong',
+                        { className: 'user-name' },
+                        ' ',
+                        status.user.name,
+                        ' '
+                    ),
+                    _react2['default'].createElement(
+                        'span',
+                        { className: 'user-screen_name' },
+                        ' @',
+                        status.user.screen_name,
+                        ' '
+                    ),
+                    _react2['default'].createElement(
+                        'p',
+                        { className: 'text' },
+                        status.text
+                    ),
+                    firstImage ? _react2['default'].createElement('img', { src: firstImage.media_url_https, className: 'img-rounded media-object media-img' }) : null,
+                    isRetweet ? _react2['default'].createElement(
+                        'span',
+                        { className: 'icon icon-retweet' },
+                        'Retweeted by ',
+                        this.props.tweet.user.name,
+                        ' '
+                    ) : null
+                )
             );
-            */
         }
     }]);
 
