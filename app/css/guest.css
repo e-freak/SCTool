@@ -1,0 +1,25 @@
+@charset 'UTF-8'
+
+/*
+表示方式
+
+大きさ
+配置方式
+位置
+マージン
+色
+*/
+
+* {
+
+} 
+
+
+
+button.guest-add-button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+
+
+}

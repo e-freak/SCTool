@@ -6,9 +6,21 @@
 
 'use strict';
 
+// importにすると動かないのはなんで？
+//import MainWindow from './app/script/main-window';
+const MainWindow = require('./app/script/main-window');
+
+class Main {
+    constructor(){
+        this.mainWindow = new MainWindow();
+    }
+
+}
+
+const main = new Main();
+
+/*
 const electron = require('electron');
-
-
 
 let mainWindow;
 
@@ -26,3 +38,4 @@ electron.app.on('ready', () => {
     });
 });
 
+*/

@@ -4,7 +4,8 @@
 <head>
   <meta charset="utf-8">
   <title>main</title>
-  <link rel="stylesheet" href="../css/default.css" />
+  <link rel="stylesheet" href="../css/window.css" />
+  <link rel="stylesheet" href="../css/guest.css" />
 </head>
 
 <body>
@@ -14,7 +15,6 @@
     <div class="window">
         <div class="control-panel">
             <div class="button-list">
-              <input type="image" src="../image/icontest.png" alt="Guest"/>
             <button id="guest-button" class="menu-button" >Guest</button>
             <button id="table-button" class="menu-button" >Table</button>
             <button id="export-button" class="menu-button" >Export</button>
@@ -25,22 +25,14 @@
         </div>
         <div id="property-panel" class="property-panel"></div>
         <div id="guest-panel" class="guest-panel">
-          <div class="guest-menu">
-            <div class="header">
-              <title>guest</title>
-              <button id="add" class="add-button" >Add</button>
-            </div>
-            <ul class="list">
-              <li class="title"><span class="icon">アイコン</span><span style="name">名前</span></li>
-            </ul>
+          <div id="guest-content-root">
           </div>
         </div>
         <div id="table-panel" class="table-panel"></div>
-
-
     </div>
   </main>
-  <script src="../script/view-controller-loader.js"></script>
+  <script src="../script/loader/view-controller-loader.js"></script>
+  <script src="../script/loader/guest-content-renderer-loader.js"></script>
 </body>
 
 </html>

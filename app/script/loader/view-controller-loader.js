@@ -3,11 +3,11 @@
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _scriptViewController = require('../script/view-controller');
+var _scriptControllerViewController = require('../script/controller/view-controller');
 
-var _scriptViewController2 = _interopRequireDefault(_scriptViewController);
+var _scriptControllerViewController2 = _interopRequireDefault(_scriptControllerViewController);
 
 global.window.addEventListener('DOMContentLoaded', function () {
-    global.controller = new _scriptViewController2['default'](global.document);
+    global.controller = new _scriptControllerViewController2['default'](global.document);
     global.controller.initialize();
 }, false);

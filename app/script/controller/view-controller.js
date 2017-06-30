@@ -18,17 +18,17 @@ var ViewController = (function () {
     _createClass(ViewController, [{
         key: 'initialize',
         value: function initialize() {
-            // alert(this._view.getElementById('guest-button')); // 表示可能
             this._view.getElementById('guest-button').addEventListener('click', this.onClickGuestButton.bind(this));
             this._view.getElementById('table-button').addEventListener('click', this.onClickTableButton.bind(this));
+            this._view.getElementById('twitter-button').addEventListener('click', this.onClickTwitterButton.bind(this));
         }
     }, {
         key: 'onClickGuestButton',
         value: function onClickGuestButton() {
-
             this._view.getElementById('property-panel').style.display = 'none';
             this._view.getElementById('guest-panel').style.display = 'block';
             this._view.getElementById('table-panel').style.display = 'none';
+            this._view.getElementById('twitter-panel').style.display = 'none';
         }
     }, {
         key: 'onClickTableButton',
@@ -36,6 +36,15 @@ var ViewController = (function () {
             this._view.getElementById('property-panel').style.display = 'none';
             this._view.getElementById('guest-panel').style.display = 'none';
             this._view.getElementById('table-panel').style.display = 'block';
+            this._view.getElementById('twitter-panel').style.display = 'none';
+        }
+    }, {
+        key: 'onClickTwitterButton',
+        value: function onClickTwitterButton() {
+            this._view.getElementById('property-panel').style.display = 'none';
+            this._view.getElementById('guest-panel').style.display = 'none';
+            this._view.getElementById('table-panel').style.display = 'none';
+            this._view.getElementById('twitter-panel').style.display = 'block';
         }
     }]);
 
