@@ -1,5 +1,4 @@
 @charset 'UTF-8'
-
 /*
 表示方式
 
@@ -9,79 +8,93 @@
 マージン
 色
 */
-* {
 
-} 
+* {}
 
 body {
-  margin: auto;
-  background-color: #CCCCCC;
+    margin: auto;
 }
 
+
 /* . ：classセレクタ */
+
 div.window {
-  width: 1240px;
-  height: 800px;
-  /* ブロック要素（改行が入るので標準で縦並び）を横に並べる場合、 display:flexを指定する*/
-  display: flex;
+    width: 1240px;
+    height: 800px;
+    /* ブロック要素（改行が入るので標準で縦並び）を横に並べる場合、 display:flexを指定する*/
+    display: flex;
 }
 
 div.control-panel {
-  width: 15%;
-  height: 100%;
-  position:relative;
-  background-color: #E2FFC0;
+    width: 8%;
+    height: 100%;
+    position: relative;
+    background-color: #E2FFC0;
+    /*background-color: #d3eadc;花の中間色*/
+    /*background-color: #dfe9d5;背景中間色*/
+    /*background-color: #d9ead9;総合中間色*/
+    /*background-color: #f3fff3;総合中間色の明度上げ*/
 }
 
-div.button-list { 
-  /* absolute → static以外を指定された親要素を基準とした絶対位置  */
-  /* 要素を親を基準にして配置したい（右下など）場合、親をstatic以外（relative）にするのを忘れないこと */
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
+div.button-list {
+    /* absolute → static以外を指定された親要素を基準とした絶対位置  */
+    /* 要素を親を基準にして配置したい（右下など）場合、親をstatic以外（relative）にするのを忘れないこと */
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
 }
 
 button.menu-button {
-  /* インライン要素（改行が入らないので標準で横並び）を縦に並べる場合、 display:blockを指定する*/
-  display: block;
-  margin: 10px;
+    /* インライン要素（改行が入らないので標準で横並び）を縦に並べる場合、 display:blockを指定する*/
+    display: block;
+    margin: 0px 0px 10px 0px;
+    background: none;
+    border: 0;
+    font-size: 0;
+    outline: none;
 }
 
-div.canvas-panel {  
-  width: 65%;
-  height: 100%;
-  background-color: #FFFFFF;
+img.menu-button-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 28px;
 }
 
-div.property-panel {
-  display: block;
-  /*visibility: hidden;*/
-  width: 20%;
-  height: 100%;
-  background-color: #0D3832;
+img#guest-button-img {
+    border: 5px solid transparent;
 }
 
-div.guest-panel {
-  display: none;
-  /*visibility: visible;*/
-  position:relative;
-  width: 20%;
-  height: 100%;
-  background-color: #AA55AA;
+img#table-button-img {
+    border: 5px solid transparent;
 }
 
-div.guest-menu {
-  position: absolute;
-  left: 10px;
-  top: 10px;
+div.canvas-panel {
+    width: 72%;
+    height: 100%;
+    background-color: #FFFFFF;
 }
 
+div.menu-guest-panel {
+    display: none;
+    /*visibility: visible;*/
+    position: relative;
+    width: 20%;
+    height: 100%;
+    background-image: url('../image/bg1.png');
+    background-repeat: repeat-y;
+}
 
-div.table-panel {
-  display: none;
-  /*visibility: hidden;*/
-  width: 20%;
-  height: 100%;
-  background-color: #3245AA;
-  
+div.menu-guest {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+
+div.menu-table-panel {
+    display: none;
+    /*visibility: hidden;*/
+    width: 20%;
+    height: 100%;
+    background-image: url('../image/bg2.png');
+    background-repeat: repeat-y;
 }

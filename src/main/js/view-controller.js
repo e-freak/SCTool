@@ -1,24 +1,56 @@
+/**
+ * view-controller.js
+ * 
+ * SCToolのビュー全体を管理する
+ * 
+ */
+
+
+import MenuController from './menu-controller';
+import MenuType from './menu-type';
+
 export default class ViewController {
     constructor(view) {
         this._view = view;
+        this._menuController = new MenuController(view);
+        this._menuController.initialize();
     }
-  
+
 
     initialize() {
-        // alert(this._view.getElementById('guest-button')); // 表示可能
         this._view.getElementById('guest-button').addEventListener('click', this.onClickGuestButton.bind(this));
         this._view.getElementById('table-button').addEventListener('click', this.onClickTableButton.bind(this));
     }
 
     onClickGuestButton() {
-    
-        this._view.getElementById('property-panel').style.display = 'none';
-        this._view.getElementById('guest-panel').style.display = 'block';
-        this._view.getElementById('table-panel').style.display = 'none';
+        //alert("ViewController::onClickGuestButton()");
+
+        if (this._menuController.confirmMenu() !== MenuType.MENU_GUEST) {
+            this._menuController.changeMenu(MenuType.MENU_GUEST);
+        } else {
+            this._menuController.changeMenu(MenuType.MENU_NONE);
+        }
+
+
+
+        //this._view.getElementById('property-guest-panel').style.display = 'block';
+        //this._view.getElementById('property-table-panel').style.display = 'none';
+        //this._view.getElementById('guest-button-img').style.borderColor = '\#d9ead9';
     }
     onClickTableButton() {
-        this._view.getElementById('property-panel').style.display = 'none';
-        this._view.getElementById('guest-panel').style.display = 'none';
-        this._view.getElementById('table-panel').style.display = 'block';
+        if (this._menuController.confirmMenu() !== MenuType.MENU_TABLE) {
+            this._menuController.changeMenu(MenuType.MENU_TABLE);
+        } else {
+            this._menuController.changeMenu(MenuType.MENU_NONE);
+        }
+
+
+
+
+        //this._view.getElementById('property-guest-panel').style.display = 'none';
+        //this._view.getElementById('property-table-panel').style.display = 'block';
+        //this._view.getElementById('table-button-img').style.borderColor = '\#d9ead9';
     }
+
+
 }
