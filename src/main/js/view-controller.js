@@ -9,11 +9,17 @@
 import MenuController from './menu-controller';
 import MenuType from './menu-type';
 
+import GuestController from './guest-controller';
+
 export default class ViewController {
     constructor(view) {
         this._view = view;
+
         this._menuController = new MenuController(view);
         this._menuController.initialize();
+
+        this._guestController = new GuestController(view);
+        this._guestController.initialize();
     }
 
 

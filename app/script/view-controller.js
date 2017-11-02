@@ -25,13 +25,21 @@ var _menuType = require('./menu-type');
 
 var _menuType2 = _interopRequireDefault(_menuType);
 
+var _guestController = require('./guest-controller');
+
+var _guestController2 = _interopRequireDefault(_guestController);
+
 var ViewController = (function () {
     function ViewController(view) {
         _classCallCheck(this, ViewController);
 
         this._view = view;
+
         this._menuController = new _menuController2['default'](view);
         this._menuController.initialize();
+
+        this._guestController = new _guestController2['default'](view);
+        this._guestController.initialize();
     }
 
     _createClass(ViewController, [{

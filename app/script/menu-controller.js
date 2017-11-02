@@ -1,5 +1,5 @@
 /**
- * menu-observer.js
+ * menu-controller.js
  * 
  * メニューの選択状況を管理する
  * 

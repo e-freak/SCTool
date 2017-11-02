@@ -9,32 +9,36 @@
 
 <body>
     <main>
-        <!-- @ レイアウト目的の場合はdivで区切る-->
-        <!-- @ 文書構造の場合は構造化タグで区切る-->
         <div class="window">
             <div class="control-panel">
                 <div class="button-list">
+                    <!-- ボタンの装飾と画像の装飾（選択時のborder設定）を分けるためにbutton属性を用いる-->
                     <button id="guest-button" class="menu-button"><img id="guest-button-img" class="menu-button-img" src="../image/icon1c.png" alt="Guest">Guest</button>
                     <button id="table-button" class="menu-button"><img id="table-button-img" class="menu-button-img" src="../image/icon2c.png" alt="Table">Table</button>
                 </div>
             </div>
             <div id="canvas-panel" class="canvas-panel">
-                <canvas id="seating_chart" />
+                <canvas id="seating-chart" />
             </div>
-            <div id="menu-guest-panel" class="menu-guest-panel">
-                <div class="menu-guest">
-                    <div class="header">
-                        <title>guest</title>
-                        <button id="add" class="add-button">Add</button>
+            <div id="menu-guest-panel" class="menu-panel">
+                <div id="menu-guest" class="menu-guest">
+                    <p id="guest-title" class="menu-title">Guests</p>
+                    <div id="guest-form" class="guest-form">
+                        <input type="text" id="guest-form-name" class="guest-form-name" placeholder="name" required>
+                        <input type="number" id="guest-form-age" class="guest-form-age" min="0" max="99" step="5">
+                        <input type="button" id="guest-form-add-button" class="guest-form-add-button" value="+">
                     </div>
-                    <ul class="list">
-                        <li class="title"><span class="icon">アイコン</span><span style="name">名前</span></li>
-                    </ul>
+                    <div id="guest-list" class="guest-list">
+                        <table id="guest-list-table" class="guest-list-table">
+                        </table>
+                    </div>
                 </div>
             </div>
-            <div id="menu-table-panel" class="menu-table-panel"></div>
-
-
+            <div id="menu-table-panel" class="menu-panel">
+                <div id="menu-table" class="menu-table">
+                    <p id="table-title" class="menu-title">Tables</p>
+                </div>
+            </div>
         </div>
     </main>
     <script src="../script/view-controller-loader.js"></script>
