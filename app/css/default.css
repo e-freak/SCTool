@@ -36,10 +36,12 @@ div.control-panel {
     width: 8%;
     height: 100%;
     position: relative;
-    background-color: #E2FFC0;
+    background-color: #daf7da;
+    /*background-color: #E2FFC0;オリジナル・pop*/
     /*background-color: #d3eadc;花の中間色*/
     /*background-color: #dfe9d5;背景中間色*/
     /*background-color: #d9ead9;総合中間色*/
+    /*background-color: #daf7da;総合中間色の鮮やかさ明るさ上げ（5%）*/
     /*background-color: #f3fff3;総合中間色の明度上げ*/
 }
 
@@ -95,7 +97,7 @@ div.menu-panel {
 
 div#menu-guest-panel {
     display: none;
-    background-image: url('../image/bg1.png');
+    background-image: url('../image/background/bg1.png');
     background-repeat: repeat-y;
 }
 
@@ -136,6 +138,12 @@ input.guest-form-age {
     padding-left: 10px;
 }
 
+input.guest-form-age::-webkit-input-placeholder {
+    font-family: "Sakkal Majalla", "Hiragino Kaku Gothic ProN";
+    font-size: 1.2rem;
+    color: #6791b4;
+}
+
 input.guest-form-add-button {
     width: 10%;
     color: #004986;
@@ -154,8 +162,15 @@ div.guest-list {
 }
 
 table.guest-list-table {
+    /* スクロールバーを含めたサイズ */
     width: 210px;
     max-height: 610px;
+    border-spacing: 2px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 6px;
+    /* スクロールバー以外のサイズは固定レイアウト指定して、セルごとに定める */
+    /* 固定レイアウト指定しない場合、文字数で幅が可変になったりする */
+    table-layout: fixed;
 }
 
 table.guest-list-table tr {
@@ -163,53 +178,76 @@ table.guest-list-table tr {
 }
 
 
-/* アイコン */
+/* アイコンセル */
 
 table.guest-list-table td:nth-child(1) {
     width: 30px;
-    background-color: blue;
 }
 
 
-/* 名前 */
+/* アイコン */
+
+img.guest-avatar {
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+
+/* 名前セル */
 
 table.guest-list-table td:nth-child(2) {
-    width: 120px;
-    font-family: "Sakkal Majalla";
-    font-size: 1.3rem;
-    border-radius: 5px;
-}
-
-table.guest-list-table ::after {
-    background-color: red;
-    box-shadow: inset 0 0 5px #fff/* 背景色と同じ色 */
-    , inset 0 0 5px #fff, inset 0 0 5px #fff, inset 0 0 5px #fff;
+    width: 92px;
+    font-family: "Sakkal Majalla", "Hiragino Kaku Gothic ProN";
+    font-size: 1.2rem;
+    color: #a7dada;
+    padding-left: 8px;
+    background-color: #004986;
+    border-radius: 6px;
 }
 
 
-/* 年齢 */
+/* 年齢セル */
 
 table.guest-list-table td:nth-child(3) {
-    width: 30px;
-    font-family: "Sakkal Majalla";
-    font-size: 1.3rem;
-    background-color: pink;
-    border-radius: 5px;
+    width: 28px;
+    font-family: "Sakkal Majalla", "Hiragino Kaku Gothic ProN";
+    font-size: 1.2rem;
+    color: #004986;
+    text-align: center;
+    background-color: #a7dada;
+    border-radius: 6px;
+}
+
+
+/* 削除ボタンセル */
+
+table.guest-list-table td:nth-child(4) {
+    width: 20px;
 }
 
 
 /* 削除ボタン */
 
 input.guest-delete-button {
+    display: block;
     width: 20px;
     height: 20px;
     color: #004986;
     border-radius: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 div#menu-table-panel {
     display: none;
-    background-image: url('../image/bg2.png');
+    background-image: url('../image/background/bg2.png');
     background-repeat: repeat-y;
 }
 
