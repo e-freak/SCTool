@@ -63,7 +63,7 @@ export default class MenuController {
 
         this._view.getElementById('menu-guest-panel').style.display = 'block';
         this._view.getElementById('menu-table-panel').style.display = 'none';
-        this._view.getElementById('guest-button-img').style.borderColor = '\#d9ead9';
+        this._view.getElementById('guest-button-img').style.borderColor = '\#d9ded9';
         this._view.getElementById('table-button-img').style.borderColor = 'transparent';
     }
 
@@ -73,7 +73,7 @@ export default class MenuController {
         this._view.getElementById('menu-guest-panel').style.display = 'none';
         this._view.getElementById('menu-table-panel').style.display = 'block';
         this._view.getElementById('guest-button-img').style.borderColor = 'transparent';
-        this._view.getElementById('table-button-img').style.borderColor = '\#d9ead9';
+        this._view.getElementById('table-button-img').style.borderColor = '\#d9ded9';
     }
 
 }

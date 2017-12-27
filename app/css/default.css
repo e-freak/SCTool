@@ -42,6 +42,7 @@ div.control-panel {
     /*background-color: #dfe9d5;背景中間色*/
     /*background-color: #d9ead9;総合中間色*/
     /*background-color: #daf7da;総合中間色の鮮やかさ明るさ上げ（5%）*/
+    /*background-color: #d9ded9;総合中間色の鮮やかさ明るさ下げ（5%）*/
     /*background-color: #f3fff3;総合中間色の明度上げ*/
 }
 
@@ -49,14 +50,16 @@ div.button-list {
     /* absolute → static以外を指定された親要素を基準とした絶対位置  */
     /* 要素を親を基準にして配置したい（右下など）場合、親をstatic以外（relative）にするのを忘れないこと */
     position: absolute;
-    left: 10px;
+    left: 20px;
     bottom: 10px;
 }
 
-button.menu-button {
+input.menu-button {
     /* インライン要素（改行が入らないので標準で横並び）を縦に並べる場合、 display:blockを指定する*/
     display: block;
     margin: 0px 0px 10px 0px;
+    /* ボタンは画像で表示するのでブラウザの標準パーツフォームを消す */
+    -webkit-appearance: none;
     background: none;
     border: 0;
     font-size: 0.0rem;
@@ -95,9 +98,12 @@ div.menu-panel {
     height: 100%;
 }
 
+
+/* Guest Panel */
+
 div#menu-guest-panel {
     display: none;
-    background-image: url('../image/background/bg1.png');
+    background-image: url('../image/background/bg-guest.png');
     background-repeat: repeat-y;
 }
 
@@ -162,13 +168,12 @@ div.guest-list {
 }
 
 table.guest-list-table {
-    /* スクロールバーを含めたサイズ */
     width: 210px;
     max-height: 610px;
     border-spacing: 2px;
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 6px;
-    /* スクロールバー以外のサイズは固定レイアウト指定して、セルごとに定める */
+    /* サイズは固定レイアウト指定して、セルごとに定める */
     /* 固定レイアウト指定しない場合、文字数で幅が可変になったりする */
     table-layout: fixed;
 }
@@ -205,7 +210,7 @@ table.guest-list-table td:nth-child(2) {
     font-family: "Sakkal Majalla", "Hiragino Kaku Gothic ProN";
     font-size: 1.2rem;
     color: #a7dada;
-    padding-left: 8px;
+    padding-left: 6px;
     background-color: #004986;
     border-radius: 6px;
 }
@@ -245,22 +250,92 @@ input.guest-delete-button {
     margin-bottom: auto;
 }
 
+
+/* Table Panel */
+
 div#menu-table-panel {
     display: none;
-    background-image: url('../image/background/bg2.png');
+    background-image: url('../image/background/bg-table.png');
     background-repeat: repeat-y;
-}
-
-div.menu-table {
-    position: relative;
 }
 
 p#table-title {
     font-family: "Sakkal Majalla";
-    font-size: 60px;
+    font-size: 4.0rem;
     color: #004986;
     background: #fffade;
     margin-top: 20px;
     margin-bottom: 30px;
     padding-left: 10px;
+}
+
+div.table-layout-form {
+    display: inline-block;
+    width: 228px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+input#table-layout-h {
+    width: 30%;
+    text-align: center;
+    color: #004986;
+    border-radius: 15px;
+    padding-left: 10px;
+}
+
+p.table-layout-operator {
+    display: inline-block;
+    width: 15%;
+    margin: 0;
+    font-size: 1.0rem;
+    font-weight: bold;
+    text-align: center;
+    color: #004986;
+}
+
+input#table-layout-v {
+    width: 30%;
+    text-align: center;
+    color: #004986;
+    border-radius: 15px;
+    padding-left: 10px;
+}
+
+div.table-type-form {
+    position: relative;
+    display: block;
+    top: 20px;
+    left: 10px;
+    width: 228px;
+    /* %ではスクロールが効かない */
+    max-height: 610px;
+    overflow-y: auto;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 6px;
+}
+
+input.table-type-radio {
+    display: inline-block;
+    margin: auto;
+    /* ボタンは画像で表示するのでブラウザの標準パーツフォームを消す */
+    -webkit-appearance: none;
+}
+
+img.table-type-radio-img {
+    display: inline-block;
+    margin: 18px;
+    width: 50px;
+    height: 50px;
+    padding: 5px;
+    border-radius: 6px;
+    background-color: #004986;
+}
+
+img#table-type-radio-img-round {
+    border: 3px inset transparent;
+}
+
+img#table-type-radio-img-square {
+    border: 3px inset transparent;
 }

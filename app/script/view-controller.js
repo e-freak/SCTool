@@ -29,6 +29,10 @@ var _guestController = require('./guest-controller');
 
 var _guestController2 = _interopRequireDefault(_guestController);
 
+var _tableController = require('./table-controller');
+
+var _tableController2 = _interopRequireDefault(_tableController);
+
 var ViewController = (function () {
     function ViewController(view) {
         _classCallCheck(this, ViewController);
@@ -40,17 +44,20 @@ var ViewController = (function () {
 
         this._guestController = new _guestController2['default'](view);
         this._guestController.initialize();
+
+        this._tableController = new _tableController2['default'](view);
+        this._tableController.initialize();
     }
 
     _createClass(ViewController, [{
         key: 'initialize',
         value: function initialize() {
-            this._view.getElementById('guest-button').addEventListener('click', this.onClickGuestButton.bind(this));
-            this._view.getElementById('table-button').addEventListener('click', this.onClickTableButton.bind(this));
+            this._view.getElementById('guest-button').addEventListener('click', this._onClickGuestButton.bind(this));
+            this._view.getElementById('table-button').addEventListener('click', this._onClickTableButton.bind(this));
         }
     }, {
-        key: 'onClickGuestButton',
-        value: function onClickGuestButton() {
+        key: '_onClickGuestButton',
+        value: function _onClickGuestButton() {
             //alert("ViewController::onClickGuestButton()");
 
             if (this._menuController.confirmMenu() !== _menuType2['default'].MENU_GUEST) {
@@ -58,23 +65,17 @@ var ViewController = (function () {
             } else {
                 this._menuController.changeMenu(_menuType2['default'].MENU_NONE);
             }
-
-            //this._view.getElementById('property-guest-panel').style.display = 'block';
-            //this._view.getElementById('property-table-panel').style.display = 'none';
-            //this._view.getElementById('guest-button-img').style.borderColor = '\#d9ead9';
         }
     }, {
-        key: 'onClickTableButton',
-        value: function onClickTableButton() {
+        key: '_onClickTableButton',
+        value: function _onClickTableButton() {
+            //alert("ViewController::onClickTableButton()");
+
             if (this._menuController.confirmMenu() !== _menuType2['default'].MENU_TABLE) {
                 this._menuController.changeMenu(_menuType2['default'].MENU_TABLE);
             } else {
                 this._menuController.changeMenu(_menuType2['default'].MENU_NONE);
             }
-
-            //this._view.getElementById('property-guest-panel').style.display = 'none';
-            //this._view.getElementById('property-table-panel').style.display = 'block';
-            //this._view.getElementById('table-button-img').style.borderColor = '\#d9ead9';
         }
     }]);
 

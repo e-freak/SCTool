@@ -9,9 +9,6 @@
 
 export default class GuestController {
 
-    // TODO:　削除ボタンによって、旧アイコンが変更になってしまう
-    //        javasctipt側でテーブルを準備して、対応させること
-
     constructor(view) {
         //alert('GuestController::constructor()');
 
@@ -20,10 +17,10 @@ export default class GuestController {
 
     initialize() {
         //alert('GuestController::initialize');
-        this._view.getElementById('guest-form-add-button').addEventListener('click', this.onClickAddButton.bind(this));
+        this._view.getElementById('guest-form-add-button').addEventListener('click', this._onClickAddButton.bind(this));
     }
 
-    onClickAddButton() {
+    _onClickAddButton() {
 
         const name = this._view.getElementById('guest-form-name').value;
         const age = this._view.getElementById('guest-form-age').value;
@@ -53,12 +50,10 @@ export default class GuestController {
         // ボタンも行に応じたIDを割り振り、行削除用のイベントリスナーを追加する
         const buttonID = `guest-delete-button-${row.rowIndex}`;
         cell_guest_delete_button.innerHTML = `<input type="button" id="${buttonID}" class="guest-delete-button" value="-">`;
-        this._view.getElementById(buttonID).addEventListener('click', this.onClickDeleteButton.bind(this, buttonID));
+        this._view.getElementById(buttonID).addEventListener('click', this._onClickDeleteButton.bind(this, buttonID));
     }
 
-    onClickDeleteButton(buttonID) {
-
-        // TODO:中間行をダブルクリックしているとまとめて行が消えてしまう問題へ対応
+    _onClickDeleteButton(buttonID) {
 
         const targetButton = this._view.getElementById(buttonID);
         const table = targetButton.parentNode.parentNode.parentNode;
@@ -101,8 +96,8 @@ export default class GuestController {
             const oldButtonElement = this._view.getElementById(oldButtonID);
 
             // ボタンの削除イベントは古いIDに紐付いているのでbindし直す
-            oldButtonElement.removeEventListener('click', this.onClickDeleteButton);
-            oldButtonElement.addEventListener('click', this.onClickDeleteButton.bind(this, newButtonID));
+            oldButtonElement.removeEventListener('click', this._onClickDeleteButton);
+            oldButtonElement.addEventListener('click', this._onClickDeleteButton.bind(this, newButtonID));
 
             // IDを新しい行に合わせて更新する
             oldAvaterElement.id = newAvaterID;
@@ -125,8 +120,8 @@ export default class GuestController {
             fileName_age = 'middle-aged1.png';
         } else if (age > 65) {
             fileName_age = 'elder1.png';
-        } else if (age < 0 || age > 99 || age === undefined) {
-            return;
+        } else {
+            throw new Error(`Unexpected Age : ${age}`);
         }
 
         return '../image/avatar/' + fileName_prefix_gender + fileName_age;
