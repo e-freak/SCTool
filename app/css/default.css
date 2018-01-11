@@ -131,6 +131,13 @@ input.guest-form-name {
     padding-right: 10px;
 }
 
+input.guest-form-name:focus {
+    outline: 0;
+    border-width: 2px;
+    border-color: rgb(255, 200, 100);
+    background-color: rgb(255, 230, 200);
+}
+
 input.guest-form-name::-webkit-input-placeholder {
     font-family: "Sakkal Majalla", "Hiragino Kaku Gothic ProN";
     font-size: 1.5rem;
@@ -142,6 +149,13 @@ input.guest-form-age {
     color: #004986;
     border-radius: 15px;
     padding-left: 10px;
+}
+
+input.guest-form-age:focus {
+    outline: 0;
+    border-width: 2px;
+    border-color: rgb(255, 200, 100);
+    background-color: rgb(255, 230, 200);
 }
 
 input.guest-form-age::-webkit-input-placeholder {
@@ -276,12 +290,19 @@ div.table-layout-form {
     padding-right: 10px;
 }
 
-input#table-layout-h {
+input.table-layout-property {
     width: 30%;
     text-align: center;
     color: #004986;
     border-radius: 15px;
     padding-left: 10px;
+}
+
+input.table-layout-property:focus {
+    outline: 0;
+    border-width: 2px;
+    border-color: rgb(255, 200, 100);
+    background-color: rgb(255, 230, 200);
 }
 
 p.table-layout-operator {
@@ -292,14 +313,6 @@ p.table-layout-operator {
     font-weight: bold;
     text-align: center;
     color: #004986;
-}
-
-input#table-layout-v {
-    width: 30%;
-    text-align: center;
-    color: #004986;
-    border-radius: 15px;
-    padding-left: 10px;
 }
 
 div.table-type-form {
