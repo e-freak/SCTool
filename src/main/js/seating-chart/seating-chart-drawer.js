@@ -8,28 +8,48 @@ import TableType from '../property/table-type';
 
 export default class SeatingChartDrawer {
     constructor(canvas) {
-        //alert('SeatingChartDrawer::constructor()');
+        console.log('SeatingChartDrawer::constructor()');
 
         this._canvas = canvas;
         this._ctx = this._canvas.getContext('2d');
     }
 
-    initialize() {
-        this._ctx.fillStyle = "rgb(100,0,0)";
-    }
+    initialize() {}
 
-    drawTable(tableType) {
-        switch (tableType) {
-            case TableType.TABLE_ROUND:
-                this._ctx.fillStyle = "rgb(100,0,0)";
-                this._ctx.fillRect(100, 0, 50, 50);
-                break;
-            case TableType.TABLE_SQUARE:
-                this._ctx.fillStyle = "rgb(0,100,0)";
-                this._ctx.fillRect(0, 100, 50, 50);
-                break;
-            default:
-                throw new Error(`Unknown TableType : ${tableType}`);
+    drawTable(data) {
+        console.log('SeatingChartDrawer::drawTable()');
+
+        this._ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
+
+        const general = data["general"];
+        const tableList = data["tableList"];
+
+        this._ctx.strokeStyle = general["tableColor"];
+        this._ctx.fillStyle = general["tableColor"];
+
+        for (let i = 0; i < (general["layout"]["h"] * general["layout"]["v"]); ++i) {
+
+
+            const tableType = general["tableType"];
+            const size = general["tableSize"];
+            const posX = tableList[i]["position"]["h"];
+            const posY = tableList[i]["position"]["v"];
+
+            switch (tableType) {
+                case TableType.TABLE_ROUND:
+                    console.log("posX:" + posX);
+                    console.log("posY:" + posY);
+                    console.log("size:" + size);
+                    this._ctx.beginPath()
+                    this._ctx.arc(posX, posY, size, 0, Math.PI * 2, true);
+                    this._ctx.fill();
+                    break;
+                case TableType.TABLE_SQUARE:
+                    this._ctx.fillRect(posX - size, posY - size, size * 2, size * 2);
+                    break;
+                default:
+                    throw new Error(`Unknown TableType : ${tableType}`);
+            }
         }
     }
 

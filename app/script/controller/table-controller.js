@@ -39,35 +39,71 @@ var TableController = (function (_Observable) {
     function TableController(view) {
         _classCallCheck(this, TableController);
 
-        //alert('TableController::constructor()');
+        console.log('TableController::constructor()');
 
         _get(Object.getPrototypeOf(TableController.prototype), 'constructor', this).call(this);
 
         this._view = view;
+        this._tableLayoutH = 1;
+        this._tableLayoutV = 1;
         this._tableType = _propertyTableType2['default'].TABLE_ROUND;
     }
 
     _createClass(TableController, [{
         key: 'initialize',
         value: function initialize() {
-            //alert('TableController::initialize');
+            console.log('TableController::initialize');
 
-            // ラジオの値が変更されたときの動作を定義する
+            this._view.getElementById('table-layout-h').addEventListener('change', this._onChangeTableLayout.bind(this));
+            this._view.getElementById('table-layout-v').addEventListener('change', this._onChangeTableLayout.bind(this));
+
             var tableTypeRadios = this._view.getElementsByName('table-type');
-
             for (var i = 0; i < tableTypeRadios.length; ++i) {
-                tableTypeRadios[i].addEventListener('change', this._onChangeTableTypeRadio.bind(this, tableTypeRadios[i].id));
+                tableTypeRadios[i].addEventListener('change', this._onChangeTableType.bind(this));
             }
 
-            // 初期値としてTableType.TABLE_ROUNDを明示する
-            this._onChangeTableTypeRadio('table-type-radio-round');
+            // HTMLで指定した初期値と連動させる
+            this._onChangeTableLayout();
+            this._onChangeTableType();
         }
     }, {
-        key: '_onChangeTableTypeRadio',
-        value: function _onChangeTableTypeRadio(radioID) {
-            //alert('TableController::onChangeTableTypeRadio');
+        key: '_generateParam',
+        value: function _generateParam() {
+            console.log('TableController::_generateParam()');
+            var param = {
+                "event": _propertyEvent2['default'].EVENT_CHANGE_TABLE_SETTING,
+                "tableType": this._tableType,
+                "tableLayoutH": this._tableLayoutH,
+                "tableLayoutV": this._tableLayoutV
+            };
 
-            switch (radioID) {
+            return param;
+        }
+    }, {
+        key: '_onChangeTableLayout',
+        value: function _onChangeTableLayout() {
+            console.log('TableController::onChangeTableLayout');
+
+            this._tableLayoutH = this._view.getElementById('table-layout-h').value;
+            this._tableLayoutV = this._view.getElementById('table-layout-v').value;
+
+            this.notifyAllObserver(this._generateParam());
+        }
+    }, {
+        key: '_onChangeTableType',
+        value: function _onChangeTableType() {
+            console.log('TableController::onChangeTableType');
+            var tableTypeRadios = this._view.getElementsByName('table-type');
+
+            var checkedID = undefined;
+            for (var i = 0; i < tableTypeRadios.length; ++i) {
+                if (tableTypeRadios[i].checked) {
+                    checkedID = tableTypeRadios[i].id;
+                    continue;
+                }
+            }
+
+            switch (checkedID) {
                 case 'table-type-radio-round':
                     this._tableType = _propertyTableType2['default'].TABLE_ROUND;
                     this._changeToRoundTable();
@@ -81,17 +117,12 @@ var TableController = (function (_Observable) {
                     throw new Error('Unexpected Table : ' + radioID);
             }
 
-            var param = {
-                event: _propertyEvent2['default'].CHANGE_TABLE_TYPE,
-                tableType: this._tableType
-            };
-
-            this.notifyAllObserver(param);
+            this.notifyAllObserver(this._generateParam());
         }
     }, {
         key: '_changeToRoundTable',
         value: function _changeToRoundTable() {
-
+            console.log('TableController::_changeToRoundTable');
             this._view.getElementById('table-type-radio-img-round').src = '../image/table/table-round-c-blue.png';
             this._view.getElementById('table-type-radio-img-round').style.backgroundColor = '\#d9ded9';
             this._view.getElementById('table-type-radio-img-round').style.borderColor = '\#d9ded9';
@@ -102,7 +133,7 @@ var TableController = (function (_Observable) {
     }, {
         key: '_changeToSquareTable',
         value: function _changeToSquareTable() {
-
+            console.log('TableController::_changeToSquareTable');
             this._view.getElementById('table-type-radio-img-round').src = '../image/table/table-round-c-yellow.png';
             this._view.getElementById('table-type-radio-img-round').style.backgroundColor = '\#004986';
             this._view.getElementById('table-type-radio-img-round').style.borderColor = 'transparent';

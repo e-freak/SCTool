@@ -24,7 +24,7 @@ var SeatingChartDrawer = (function () {
     function SeatingChartDrawer(canvas) {
         _classCallCheck(this, SeatingChartDrawer);
 
-        //alert('SeatingChartDrawer::constructor()');
+        console.log('SeatingChartDrawer::constructor()');
 
         this._canvas = canvas;
         this._ctx = this._canvas.getContext('2d');
@@ -32,23 +32,42 @@ var SeatingChartDrawer = (function () {
 
     _createClass(SeatingChartDrawer, [{
         key: 'initialize',
-        value: function initialize() {
-            this._ctx.fillStyle = "rgb(100,0,0)";
-        }
+        value: function initialize() {}
     }, {
         key: 'drawTable',
-        value: function drawTable(tableType) {
-            switch (tableType) {
-                case _propertyTableType2['default'].TABLE_ROUND:
-                    this._ctx.fillStyle = "rgb(100,0,0)";
-                    this._ctx.fillRect(100, 0, 50, 50);
-                    break;
-                case _propertyTableType2['default'].TABLE_SQUARE:
-                    this._ctx.fillStyle = "rgb(0,100,0)";
-                    this._ctx.fillRect(0, 100, 50, 50);
-                    break;
-                default:
-                    throw new Error('Unknown TableType : ' + tableType);
+        value: function drawTable(data) {
+            console.log('SeatingChartDrawer::drawTable()');
+
+            this._ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
+
+            var general = data["general"];
+            var tableList = data["tableList"];
+
+            this._ctx.strokeStyle = general["tableColor"];
+            this._ctx.fillStyle = general["tableColor"];
+
+            for (var i = 0; i < general["layout"]["h"] * general["layout"]["v"]; ++i) {
+
+                var tableType = general["tableType"];
+                var size = general["tableSize"];
+                var posX = tableList[i]["position"]["h"];
+                var posY = tableList[i]["position"]["v"];
+
+                switch (tableType) {
+                    case _propertyTableType2['default'].TABLE_ROUND:
+                        console.log("posX:" + posX);
+                        console.log("posY:" + posY);
+                        console.log("size:" + size);
+                        this._ctx.beginPath();
+                        this._ctx.arc(posX, posY, size, 0, Math.PI * 2, true);
+                        this._ctx.fill();
+                        break;
+                    case _propertyTableType2['default'].TABLE_SQUARE:
+                        this._ctx.fillRect(posX - size, posY - size, size * 2, size * 2);
+                        break;
+                    default:
+                        throw new Error('Unknown TableType : ' + tableType);
+                }
             }
         }
     }, {

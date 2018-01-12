@@ -89,6 +89,11 @@ div.canvas-panel {
     position: relative;
 }
 
+canvas.seating-chart {
+    /* canvasはcssでwidth/heightを指定すると、相対的に伸長してしまうので、HTMLかJSで指定する */
+    position: absolute;
+}
+
 
 /* Menu Panel */
 

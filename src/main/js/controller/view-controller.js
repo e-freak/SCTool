@@ -16,6 +16,7 @@ import SeatingChartManager from '../seating-chart/seating-chart-manager';
 
 export default class ViewController {
     constructor(view) {
+        console.log("ViewController::constructor()");
         this._view = view;
 
         this._seatingChartManager = new SeatingChartManager(view);
@@ -32,6 +33,7 @@ export default class ViewController {
 
 
     initialize() {
+        console.log("ViewController::initialize()");
         this._menuController.initialize();
         this._guestController.initialize();
         this._tableController.initialize();
@@ -41,7 +43,7 @@ export default class ViewController {
     }
 
     _onClickGuestButton() {
-        //alert("ViewController::onClickGuestButton()");
+        console.log("ViewController::onClickGuestButton()");
 
         if (this._menuController.confirmMenu() !== MenuType.MENU_GUEST) {
             this._menuController.changeMenu(MenuType.MENU_GUEST);
@@ -51,7 +53,7 @@ export default class ViewController {
     }
 
     _onClickTableButton() {
-        //alert("ViewController::onClickTableButton()");
+        console.log("ViewController::onClickTableButton()");
 
         if (this._menuController.confirmMenu() !== MenuType.MENU_TABLE) {
             this._menuController.changeMenu(MenuType.MENU_TABLE);

@@ -35,7 +35,7 @@ var GuestController = (function (_Observable) {
     function GuestController(view) {
         _classCallCheck(this, GuestController);
 
-        //alert('GuestController::constructor()');
+        console.log('GuestController::constructor()');
 
         _get(Object.getPrototypeOf(GuestController.prototype), 'constructor', this).call(this);
 
@@ -45,12 +45,13 @@ var GuestController = (function (_Observable) {
     _createClass(GuestController, [{
         key: 'initialize',
         value: function initialize() {
-            //alert('GuestController::initialize');
+            console.log('GuestController::initialize()');
             this._view.getElementById('guest-form-add-button').addEventListener('click', this._onClickAddButton.bind(this));
         }
     }, {
         key: '_onClickAddButton',
         value: function _onClickAddButton() {
+            console.log('GuestController::_onClickAddButton()');
 
             var name = this._view.getElementById('guest-form-name').value;
             var age = this._view.getElementById('guest-form-age').value;
@@ -84,7 +85,7 @@ var GuestController = (function (_Observable) {
 
             // 仮イベント
             var param = {
-                event: _propertyEvent2['default'].ADD_GUEST,
+                event: _propertyEvent2['default'].EVENT_PUSH_GUEST,
                 src: srcFilePath
             };
 
@@ -93,6 +94,7 @@ var GuestController = (function (_Observable) {
     }, {
         key: '_onClickDeleteButton',
         value: function _onClickDeleteButton(buttonID) {
+            console.log('GuestController::_onClickDeleteButton()');
 
             var targetButton = this._view.getElementById(buttonID);
             var table = targetButton.parentNode.parentNode.parentNode;
@@ -146,6 +148,7 @@ var GuestController = (function (_Observable) {
     }, {
         key: '_selectAvatar',
         value: function _selectAvatar(age) {
+            console.log('GuestController::_selectAvatar()');
 
             var fileName_prefix_gender = Math.random() >= 0.5 ? 'man-' : 'woman-';
 

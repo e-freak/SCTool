@@ -25,7 +25,7 @@ var MenuController = (function () {
     function MenuController(view) {
         _classCallCheck(this, MenuController);
 
-        //alert('MenuController::constructor()');
+        console.log('MenuController::constructor()');
 
         this._view = view;
         this._menuType = _propertyMenuType2['default'].MENU_NONE;
@@ -33,18 +33,20 @@ var MenuController = (function () {
 
     _createClass(MenuController, [{
         key: 'initialize',
-        value: function initialize() {}
+        value: function initialize() {
+            console.log('MenuController::initialize()');
+        }
     }, {
         key: 'confirmMenu',
         value: function confirmMenu() {
-            //alert('MenuController::confirmMenu()');
+            console.log('MenuController::confirmMenu()');
 
             return this._MenuType;
         }
     }, {
         key: 'changeMenu',
         value: function changeMenu(menu) {
-            //alert('MenuController::changeMenu()');
+            console.log('MenuController::changeMenu()');
 
             switch (menu) {
                 case _propertyMenuType2['default'].MENU_NONE:
@@ -67,7 +69,7 @@ var MenuController = (function () {
     }, {
         key: '_changeToNoneMenu',
         value: function _changeToNoneMenu() {
-            //alert('MenuController::_changeToNoneMenu()');
+            console.log('MenuController::_changeToNoneMenu()');
 
             this._view.getElementById('menu-guest-panel').style.display = 'none';
             this._view.getElementById('menu-table-panel').style.display = 'none';
@@ -77,7 +79,7 @@ var MenuController = (function () {
     }, {
         key: '_changeToGuestMenu',
         value: function _changeToGuestMenu() {
-            //alert('MenuController:: _changeToGuestMenu()');
+            console.log('MenuController:: _changeToGuestMenu()');
 
             this._view.getElementById('menu-guest-panel').style.display = 'block';
             this._view.getElementById('menu-table-panel').style.display = 'none';
@@ -87,7 +89,7 @@ var MenuController = (function () {
     }, {
         key: '_changeToTableMenu',
         value: function _changeToTableMenu() {
-            //alert('MenuController:: _changeToTableMenu()');
+            console.log('MenuController:: _changeToTableMenu()');
 
             this._view.getElementById('menu-guest-panel').style.display = 'none';
             this._view.getElementById('menu-table-panel').style.display = 'block';

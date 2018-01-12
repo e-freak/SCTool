@@ -13,7 +13,7 @@ import Event from '../property/event'
 export default class GuestController extends Observable {
 
     constructor(view) {
-        //alert('GuestController::constructor()');
+        console.log('GuestController::constructor()');
 
         super();
 
@@ -21,11 +21,12 @@ export default class GuestController extends Observable {
     }
 
     initialize() {
-        //alert('GuestController::initialize');
+        console.log('GuestController::initialize()');
         this._view.getElementById('guest-form-add-button').addEventListener('click', this._onClickAddButton.bind(this));
     }
 
     _onClickAddButton() {
+        console.log('GuestController::_onClickAddButton()');
 
         const name = this._view.getElementById('guest-form-name').value;
         const age = this._view.getElementById('guest-form-age').value;
@@ -59,7 +60,7 @@ export default class GuestController extends Observable {
 
         // 仮イベント
         const param = {
-            event: Event.ADD_GUEST,
+            event: Event.EVENT_PUSH_GUEST,
             src: srcFilePath,
         }
 
@@ -69,6 +70,7 @@ export default class GuestController extends Observable {
     }
 
     _onClickDeleteButton(buttonID) {
+        console.log('GuestController::_onClickDeleteButton()');
 
         const targetButton = this._view.getElementById(buttonID);
         const table = targetButton.parentNode.parentNode.parentNode;
@@ -122,6 +124,7 @@ export default class GuestController extends Observable {
     }
 
     _selectAvatar(age) {
+        console.log('GuestController::_selectAvatar()');
 
         let fileName_prefix_gender = (Math.random() >= 0.5) ? 'man-' : 'woman-';
 

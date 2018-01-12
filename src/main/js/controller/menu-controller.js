@@ -11,24 +11,25 @@ import MenuType from '../property/menu-type';
 export default class MenuController {
 
     constructor(view) {
-        //alert('MenuController::constructor()');
+        console.log('MenuController::constructor()');
 
         this._view = view;
         this._menuType = MenuType.MENU_NONE;
     }
 
     initialize() {
+        console.log('MenuController::initialize()');
 
     }
 
     confirmMenu() {
-        //alert('MenuController::confirmMenu()');
+        console.log('MenuController::confirmMenu()');
 
         return this._MenuType;
     }
 
     changeMenu(menu) {
-        //alert('MenuController::changeMenu()');
+        console.log('MenuController::changeMenu()');
 
         switch (menu) {
             case MenuType.MENU_NONE:
@@ -50,7 +51,7 @@ export default class MenuController {
     }
 
     _changeToNoneMenu() {
-        //alert('MenuController::_changeToNoneMenu()');
+        console.log('MenuController::_changeToNoneMenu()');
 
         this._view.getElementById('menu-guest-panel').style.display = 'none';
         this._view.getElementById('menu-table-panel').style.display = 'none';
@@ -59,7 +60,7 @@ export default class MenuController {
     }
 
     _changeToGuestMenu() {
-        //alert('MenuController:: _changeToGuestMenu()');
+        console.log('MenuController:: _changeToGuestMenu()');
 
         this._view.getElementById('menu-guest-panel').style.display = 'block';
         this._view.getElementById('menu-table-panel').style.display = 'none';
@@ -68,7 +69,7 @@ export default class MenuController {
     }
 
     _changeToTableMenu() {
-        //alert('MenuController:: _changeToTableMenu()');
+        console.log('MenuController:: _changeToTableMenu()');
 
         this._view.getElementById('menu-guest-panel').style.display = 'none';
         this._view.getElementById('menu-table-panel').style.display = 'block';

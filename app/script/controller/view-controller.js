@@ -41,6 +41,7 @@ var ViewController = (function () {
     function ViewController(view) {
         _classCallCheck(this, ViewController);
 
+        console.log("ViewController::constructor()");
         this._view = view;
 
         this._seatingChartManager = new _seatingChartSeatingChartManager2['default'](view);
@@ -57,6 +58,7 @@ var ViewController = (function () {
     _createClass(ViewController, [{
         key: 'initialize',
         value: function initialize() {
+            console.log("ViewController::initialize()");
             this._menuController.initialize();
             this._guestController.initialize();
             this._tableController.initialize();
@@ -67,7 +69,7 @@ var ViewController = (function () {
     }, {
         key: '_onClickGuestButton',
         value: function _onClickGuestButton() {
-            //alert("ViewController::onClickGuestButton()");
+            console.log("ViewController::onClickGuestButton()");
 
             if (this._menuController.confirmMenu() !== _menuType2['default'].MENU_GUEST) {
                 this._menuController.changeMenu(_menuType2['default'].MENU_GUEST);
@@ -78,7 +80,7 @@ var ViewController = (function () {
     }, {
         key: '_onClickTableButton',
         value: function _onClickTableButton() {
-            //alert("ViewController::onClickTableButton()");
+            console.log("ViewController::onClickTableButton()");
 
             if (this._menuController.confirmMenu() !== _menuType2['default'].MENU_TABLE) {
                 this._menuController.changeMenu(_menuType2['default'].MENU_TABLE);

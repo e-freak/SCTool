@@ -37,12 +37,19 @@ var SeatingChartManager = (function (_Observer) {
     function SeatingChartManager(view) {
         _classCallCheck(this, SeatingChartManager);
 
-        //alert('SeatingChartManager::constructor()');
+        console.log('SeatingChartManager::constructor()');
 
         _get(Object.getPrototypeOf(SeatingChartManager.prototype), 'constructor', this).call(this);
 
         this._view = view;
 
+        var canvasPanel = this._view.getElementById('canvas-panel');
+        var canvas = this._view.getElementById('seating-chart');
+
+        this._canvasSizeH = canvas.width = canvasPanel.clientWidth;
+        this._canvasSizeV = canvas.height = canvasPanel.clientHeight;
+
+        this._seatingChartData = {};
         this._drawer = new _seatingChartDrawer2['default'](this._view.getElementById('seating-chart'));
         this._drawer.initialize();
     }
@@ -50,27 +57,84 @@ var SeatingChartManager = (function (_Observer) {
     _createClass(SeatingChartManager, [{
         key: 'update',
         value: function update(observable, param) {
+            console.log('SeatingChartManager::update()');
             switch (param.event) {
-                case _propertyEvent2['default'].CHANGE_TABLE_TYPE:
-                    this._changeTableType(param);
+                case _propertyEvent2['default'].EVENT_GENERATE_SEATING_CHART:
                     break;
-                case _propertyEvent2['default'].ADD_GUEST:
-                    this._addGuest(param);
+                case _propertyEvent2['default'].EVENT_CHANGE_TABLE_SETTING:
+                    this._changeTableSetting(param);
+                    break;
+                case _propertyEvent2['default'].EVENT_PUSH_TABLE:
+                    break;
+                case _propertyEvent2['default'].EVENT_POP_TABLE:
+                    break;
+                case _propertyEvent2['default'].EVENT_SWAP_TABLE:
+                    break;
+                case _propertyEvent2['default'].EVENT_PUSH_GUEST:
+                    this._pushGuest(param);
+                    break;
+                case _propertyEvent2['default'].EVENT_POP_GUEST:
+                    break;
+                case _propertyEvent2['default'].EVENT_SWAP_GUEST:
                     break;
                 default:
                     break;
             }
         }
     }, {
-        key: '_changeTableType',
-        value: function _changeTableType(param) {
-            //alert('SeatingChartManager::_changeTableType');
-            this._drawer.drawTable(param.tableType);
+        key: '_changeTableSetting',
+        value: function _changeTableSetting(param) {
+            console.log('SeatingChartManager::_changeTableSetting()');
+
+            var tableIntervalH = parseInt(this._canvasSizeH / (parseInt(param["tableLayoutH"]) + 1));
+            var tableIntervalV = parseInt(this._canvasSizeV / (parseInt(param["tableLayoutV"]) + 1));
+
+            console.log("canvasSizeH:" + this._canvasSizeH);
+            console.log("canvasSizeV:" + this._canvasSizeV);
+            console.log("param.tableLayoutH:" + param["tableLayoutH"]);
+            console.log("param.tableLayoutV:" + param["tableLayoutV"]);
+            console.log("tableIntervalH:" + tableIntervalH);
+            console.log("tableIntervalV:" + tableIntervalV);
+            var general = {
+                "layout": {
+                    "h": param["tableLayoutH"],
+                    "v": param["tableLayoutV"]
+                },
+                "tableType": param["tableType"],
+                // 円卓のときは半径、長卓の場合は1辺の半分で扱う
+                "tableSize": parseInt(Math.min(tableIntervalH, tableIntervalV) / 3),
+                "tableColor": "rgb(200,210,250)",
+                "seatLimit": 6
+            };
+
+            this._seatingChartData["general"] = general;
+
+            var tableList = {};
+
+            for (var v = 0; v < param.tableLayoutV; ++v) {
+                for (var h = 0; h < param.tableLayoutH; ++h) {
+
+                    var idVal = v * param.tableLayoutH + h;
+                    var table = {
+                        "id": idVal,
+                        "position": {
+                            "h": h * tableIntervalH + tableIntervalH,
+                            "v": v * tableIntervalV + tableIntervalV
+                        }
+                    };
+                    tableList[idVal] = table;
+                }
+            }
+
+            this._seatingChartData["tableList"] = tableList;
+
+            this._drawer.drawTable(this._seatingChartData);
         }
     }, {
-        key: '_addGuest',
-        value: function _addGuest(param) {
-            this._drawer.drawGuest(param.src);
+        key: '_pushGuest',
+        value: function _pushGuest(param) {
+            console.log('SeatingChartManager::_pushGuest()');
+            //this._drawer.drawGuest(param.src);
         }
     }]);
 
