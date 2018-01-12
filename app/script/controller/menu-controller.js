@@ -17,9 +17,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var _menuType = require('./menu-type');
+var _propertyMenuType = require('../property/menu-type');
 
-var _menuType2 = _interopRequireDefault(_menuType);
+var _propertyMenuType2 = _interopRequireDefault(_propertyMenuType);
 
 var MenuController = (function () {
     function MenuController(view) {
@@ -28,7 +28,7 @@ var MenuController = (function () {
         //alert('MenuController::constructor()');
 
         this._view = view;
-        this._menuType = _menuType2['default'].MENU_NONE;
+        this._menuType = _propertyMenuType2['default'].MENU_NONE;
     }
 
     _createClass(MenuController, [{
@@ -47,15 +47,15 @@ var MenuController = (function () {
             //alert('MenuController::changeMenu()');
 
             switch (menu) {
-                case _menuType2['default'].MENU_NONE:
+                case _propertyMenuType2['default'].MENU_NONE:
                     this._MenuType = menu;
                     this._changeToNoneMenu();
                     break;
-                case _menuType2['default'].MENU_GUEST:
+                case _propertyMenuType2['default'].MENU_GUEST:
                     this._MenuType = menu;
                     this._changeToGuestMenu();
                     break;
-                case _menuType2['default'].MENU_TABLE:
+                case _propertyMenuType2['default'].MENU_TABLE:
                     this._MenuType = menu;
                     this._changeToTableMenu();
                     break;

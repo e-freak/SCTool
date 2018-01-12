@@ -33,25 +33,34 @@ var _tableController = require('./table-controller');
 
 var _tableController2 = _interopRequireDefault(_tableController);
 
+var _seatingChartSeatingChartManager = require('../seating-chart/seating-chart-manager');
+
+var _seatingChartSeatingChartManager2 = _interopRequireDefault(_seatingChartSeatingChartManager);
+
 var ViewController = (function () {
     function ViewController(view) {
         _classCallCheck(this, ViewController);
 
         this._view = view;
 
+        this._seatingChartManager = new _seatingChartSeatingChartManager2['default'](view);
+
         this._menuController = new _menuController2['default'](view);
-        this._menuController.initialize();
 
         this._guestController = new _guestController2['default'](view);
-        this._guestController.initialize();
+        this._guestController.addObserver(this._seatingChartManager);
 
         this._tableController = new _tableController2['default'](view);
-        this._tableController.initialize();
+        this._tableController.addObserver(this._seatingChartManager);
     }
 
     _createClass(ViewController, [{
         key: 'initialize',
         value: function initialize() {
+            this._menuController.initialize();
+            this._guestController.initialize();
+            this._tableController.initialize();
+
             this._view.getElementById('guest-button').addEventListener('click', this._onClickGuestButton.bind(this));
             this._view.getElementById('table-button').addEventListener('click', this._onClickTableButton.bind(this));
         }

@@ -5,14 +5,19 @@
  * 
  */
 
-import TableType from './table-type';
+import Observable from './observable';
+
+import Event from '../property/event'
+import TableType from '../property/table-type';
 
 
 
-export default class TableController {
+export default class TableController extends Observable {
 
     constructor(view) {
         //alert('TableController::constructor()');
+
+        super();
 
         this._view = view;
         this._tableType = TableType.TABLE_ROUND;
@@ -32,6 +37,7 @@ export default class TableController {
         this._onChangeTableTypeRadio('table-type-radio-round');
     }
 
+
     _onChangeTableTypeRadio(radioID) {
         //alert('TableController::onChangeTableTypeRadio');
 
@@ -48,6 +54,13 @@ export default class TableController {
                 // ${} 変数や式が入れられる
                 throw new Error(`Unexpected Table : ${radioID}`);
         }
+
+        const param = {
+            event: Event.CHANGE_TABLE_TYPE,
+            tableType: this._tableType
+        }
+
+        this.notifyAllObserver(param);
 
 
     }

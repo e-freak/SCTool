@@ -5,12 +5,17 @@
  * 
  */
 
+import Observable from "./observable";
+
+import Event from '../property/event'
 
 
-export default class GuestController {
+export default class GuestController extends Observable {
 
     constructor(view) {
         //alert('GuestController::constructor()');
+
+        super();
 
         this._view = view;
     }
@@ -51,6 +56,16 @@ export default class GuestController {
         const buttonID = `guest-delete-button-${row.rowIndex}`;
         cell_guest_delete_button.innerHTML = `<input type="button" id="${buttonID}" class="guest-delete-button" value="-">`;
         this._view.getElementById(buttonID).addEventListener('click', this._onClickDeleteButton.bind(this, buttonID));
+
+        // 仮イベント
+        const param = {
+            event: Event.ADD_GUEST,
+            src: srcFilePath,
+        }
+
+        this.notifyAllObserver(param);
+
+
     }
 
     _onClickDeleteButton(buttonID) {

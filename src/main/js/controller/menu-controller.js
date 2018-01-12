@@ -5,7 +5,7 @@
  * 
  */
 
-import MenuType from './menu-type';
+import MenuType from '../property/menu-type';
 
 
 export default class MenuController {
