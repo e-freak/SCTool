@@ -1,35 +1,36 @@
 {
-  "name": "sctool",
-  "version": "1.0.0",
-  "description": "",
-  "main": "sctool.js",
-  "scripts": {
-    "compile": "gulp compile",
-    "test": "gulp unit-test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/e-freak/SCTool.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/e-freak/SCTool/issues"
-  },
-  "homepage": "https://github.com/e-freak/SCTool#readme",
-  "devDependencies": {
-    "asar": "^0.13.0",
-    "browserify": "^14.3.0",
-    "electron": "^1.6.8",
-    "electron-packager": "^8.7.0",
-    "electron-prebuilt": "^1.4.13",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^5.3.0",
-    "gulp-load-plugins": "^1.5.0",
-    "gulp-mocha": "^4.3.1",
-    "gulp-util": "^3.0.8",
-    "mocha": "^3.4.1",
-    "through2": "^2.0.3"
-  }
+    "name": "sctool",
+    "version": "1.0.0",
+    "description": "",
+    "main": "sctool.js",
+    "scripts": {
+        "compile": "gulp compile",
+        "test": "gulp unit-test",
+        "app": "electron SCtool"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/e-freak/SCTool.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/e-freak/SCTool/issues"
+    },
+    "homepage": "https://github.com/e-freak/SCTool#readme",
+    "devDependencies": {
+        "asar": "^0.13.0",
+        "browserify": "^14.3.0",
+        "electron": "^1.6.8",
+        "electron-packager": "^8.7.0",
+        "electron-prebuilt": "^1.4.13",
+        "gulp": "^3.9.1",
+        "gulp-babel": "^5.3.0",
+        "gulp-load-plugins": "^1.5.0",
+        "gulp-mocha": "^4.3.1",
+        "gulp-util": "^3.0.8",
+        "mocha": "^3.4.1",
+        "through2": "^2.0.3"
+    }
 }
