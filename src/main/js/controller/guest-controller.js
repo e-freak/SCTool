@@ -48,30 +48,23 @@ export default class GuestController extends Observable {
         cell_guest_info_age.innerHTML = age;
 
         // アバターは行に応じたIDを割り振り、画像は年齢に応じたものにする
+        // ドラッグ時のデータ発送イベントリスナーを追加する
         const srcFilePath = this._selectAvatar(age);
 
         const avatarID = `guest-avatar-${row.rowIndex}`;
-        cell_guest_info_avatar.innerHTML = `<img id="${avatarID}" class="guest-avatar" src="${srcFilePath}" alt="Avatar">`;
+        cell_guest_info_avatar.innerHTML = `<img id="${avatarID}" class="guest-avatar" src="${srcFilePath}" alt="Avatar" draggable=true>`;
+        this._view.getElementById(avatarID).addEventListener('dragstart', this._onDragStartAvatar.bind(this));
 
         // ボタンも行に応じたIDを割り振り、行削除用のイベントリスナーを追加する
         const buttonID = `guest-delete-button-${row.rowIndex}`;
         cell_guest_delete_button.innerHTML = `<input type="button" id="${buttonID}" class="guest-delete-button" value="-">`;
-        this._view.getElementById(buttonID).addEventListener('click', this._onClickDeleteButton.bind(this, buttonID));
-
-        // 仮イベント
-        const param = {
-            event: Event.EVENT_PUSH_GUEST,
-            src: srcFilePath,
-        }
-
-        this.notifyAllObserver(param);
-
+        this._view.getElementById(buttonID).addEventListener('click', this._onClickDeleteButton.bind(this));
 
     }
 
-    _onClickDeleteButton(buttonID) {
+    _onClickDeleteButton(event) {
         console.log('GuestController::_onClickDeleteButton()');
-
+        const buttonID = event.target.id;
         const targetButton = this._view.getElementById(buttonID);
         const table = targetButton.parentNode.parentNode.parentNode;
         const rowsLength = table.rows.length;
@@ -101,23 +94,16 @@ export default class GuestController extends Observable {
             }
 
             // 削除した後の行情報を更新する
-
             const newIndex = i - 1;
 
             const oldAvaterID = `guest-avatar-${i}`;
-            const newAvaterID = `guest-avatar-${index}`;
-            const oldAvaterElement = this._view.getElementById(oldAvaterID);
+            const newAvaterID = `guest-avatar-${newIndex}`;
+            let oldAvaterElement = this._view.getElementById(oldAvaterID);
+            oldAvaterElement.id = newAvaterID;
 
             const oldButtonID = `guest-delete-button-${i}`;
-            const newButtonID = `guest-delete-button-${index}`;
-            const oldButtonElement = this._view.getElementById(oldButtonID);
-
-            // ボタンの削除イベントは古いIDに紐付いているのでbindし直す
-            oldButtonElement.removeEventListener('click', this._onClickDeleteButton);
-            oldButtonElement.addEventListener('click', this._onClickDeleteButton.bind(this, newButtonID));
-
-            // IDを新しい行に合わせて更新する
-            oldAvaterElement.id = newAvaterID;
+            const newButtonID = `guest-delete-button-${newIndex}`;
+            let oldButtonElement = this._view.getElementById(oldButtonID);
             oldButtonElement.id = newButtonID;
         }
 
@@ -144,6 +130,11 @@ export default class GuestController extends Observable {
 
         return '../image/avatar/' + fileName_prefix_gender + fileName_age;
 
+    }
+
+    _onDragStartAvatar(event) {
+        console.log('GuestController::_onDragStartAvatar()');
+        event.dataTransfer.setData("text", event.target.src);
     }
 
 }

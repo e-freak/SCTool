@@ -105,8 +105,7 @@ export default class SeatingChartManager extends Observer {
 
     _pushGuest(param) {
         console.log('SeatingChartManager::_pushGuest()');
-        //this._drawer.drawGuest(param.src);
-
+        this._drawer.drawGuest(param.src);
     }
 
 

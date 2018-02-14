@@ -54,7 +54,7 @@ export default class SeatingChartDrawer {
     }
 
     drawGuest(src) {
-        var img = new Image();
+        let img = new Image();
         img.src = src;
 
         this._ctx.drawImage(img, 0, 0)

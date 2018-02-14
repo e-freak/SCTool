@@ -220,6 +220,7 @@ img.guest-avatar {
     margin-right: auto;
     margin-top: auto;
     margin-bottom: auto;
+    cursor: move;
 }
 
 
