@@ -81,17 +81,20 @@ img#table-button-img {
 }
 
 
-/* Canvas Panel */
+/* SeatingChart Panel */
 
-div.canvas-panel {
+div.seating-chart-panel {
     width: 1140px;
     height: 100%;
     position: relative;
 }
 
-canvas.seating-chart {
-    /* canvasはcssでwidth/heightを指定すると、相対的に伸長してしまうので、HTMLかJSで指定する */
-    position: absolute;
+div.section-col {
+    border: 1px inset red;
+}
+
+div.section-row {
+    border: 1px inset yellowgreen;
 }
 
 

@@ -13,7 +13,7 @@ import GuestController from './guest-controller';
 import TableController from './table-controller';
 import SeatingChartController from './seating-chart-controller';
 
-import SeatingChartManager from '../seating-chart/seating-chart-manager';
+import SeatingChartLayouter from '../seating-chart/seating-chart-layouter';
 
 export default class ViewController {
     constructor(view) {
@@ -22,19 +22,18 @@ export default class ViewController {
 
         this._menuController = new MenuController(view);
 
-        // 席次表キャンバスの描画を管理するクラス
-        this._seatingChartManager = new SeatingChartManager(view);
+        // 席次表のレイアウトを管理するクラス
+        this._seatingChartLayouter = new SeatingChartLayouter(view);
 
-        // 各種GUI操作を受けて管理クラスにイベントを発送するクラス群
+        // 各種GUI操作を受けてレイアウトクラスにイベントを発送するクラス群
         this._guestController = new GuestController(view);
-        this._guestController.addObserver(this._seatingChartManager);
+        this._guestController.addObserver(this._seatingChartLayouter);
 
         this._tableController = new TableController(view);
-        this._tableController.addObserver(this._seatingChartManager);
+        this._tableController.addObserver(this._seatingChartLayouter);
 
-        // 席次表キャンバスの描画以外の操作管理を行う
         this._seatingChartController = new SeatingChartController(view);
-        this._seatingChartController.addObserver(this._seatingChartManager);
+        this._seatingChartController.addObserver(this._seatingChartLayouterr);
 
     }
 

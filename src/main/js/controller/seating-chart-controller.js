@@ -23,13 +23,13 @@ export default class SeatingChartController extends Observable {
     initialize() {
         console.log('SeatingChartController::initialize()');
 
-        this._view.getElementById('seating-chart').addEventListener('dragover', this._stopDefAction.bind(this));
-        this._view.getElementById('seating-chart').addEventListener('drop', this._stopDefAction.bind(this));
+        this._view.getElementById('seating-chart-panel').addEventListener('dragover', this._stopDefAction.bind(this));
+        this._view.getElementById('seating-chart-panel').addEventListener('drop', this._stopDefAction.bind(this));
 
-        this._view.getElementById('seating-chart').addEventListener('dragover', this._onDragOverAvatar.bind(this));
-        this._view.getElementById('seating-chart').addEventListener('dragleave', this._onDragLeaveAvatar.bind(this));
-        this._view.getElementById('seating-chart').addEventListener('dragenter', this._onDragEnterAvatar.bind(this));
-        this._view.getElementById('seating-chart').addEventListener('drop', this._onDropAvatar.bind(this));
+        this._view.getElementById('seating-chart-panel').addEventListener('dragover', this._onDragOverAvatar.bind(this));
+        this._view.getElementById('seating-chart-panel').addEventListener('dragleave', this._onDragLeaveAvatar.bind(this));
+        this._view.getElementById('seating-chart-panel').addEventListener('dragenter', this._onDragEnterAvatar.bind(this));
+        this._view.getElementById('seating-chart-panel').addEventListener('drop', this._onDropAvatar.bind(this));
     }
 
     _stopDefAction(evt) {
@@ -39,14 +39,14 @@ export default class SeatingChartController extends Observable {
     _onDragOverAvatar() {
 
         console.log('GuestController::_onDragOverAvatar()');
-        this._view.getElementById('seating-chart').style.borderColor = 'red';
-        this._view.getElementById('seating-chart').style.borderWidth = '10px';
+        this._view.getElementById('seating-chart-panel').style.borderColor = 'red';
+        this._view.getElementById('seating-chart-panel').style.borderWidth = '10px';
     }
 
     _onDragLeaveAvatar() {
 
         console.log('GuestController::_onDragLeaveAvatar()');
-        this._view.getElementById('seating-chart').style.borderColor = 'transparent';
+        this._view.getElementById('seating-chart-panel').style.borderColor = 'transparent';
     }
 
     _onDragEnterAvatar() {

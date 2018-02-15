@@ -1,23 +1,24 @@
 /**
- * seating-chart-drawer.js
+ * seating-chart-decorator.js
  * 
- * 席次表を描画する
+ * Canvasを用い席次表を装飾する構成品を作る
  */
 
 import TableType from '../property/table-type';
 
-export default class SeatingChartDrawer {
-    constructor(canvas) {
-        console.log('SeatingChartDrawer::constructor()');
+export default class SeatingChartDecorator {
+    constructor() {
+        console.log('SeatingChartDecorator::constructor()');
 
-        this._canvas = canvas;
-        this._ctx = this._canvas.getContext('2d');
+        //this._canvas = canvas;
+        //this._ctx = this._canvas.getContext('2d');
     }
 
     initialize() {}
 
+    /*
     drawTable(data) {
-        console.log('SeatingChartDrawer::drawTable()');
+        console.log('SeatingChartDecorator::drawTable()');
 
         this._ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
 
@@ -60,6 +61,6 @@ export default class SeatingChartDrawer {
         this._ctx.drawImage(img, 0, 0)
 
 
-    }
+    }*/
 
 }
