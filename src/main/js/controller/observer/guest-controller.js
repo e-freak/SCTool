@@ -5,24 +5,31 @@
  * 
  */
 
-import Observable from "./observable";
+import Observer from "./observer";
 
-import Event from '../property/event'
+import Event from '../../observable/event'
 
 
-export default class GuestController extends Observable {
+export default class GuestController extends Observer {
 
-    constructor(view) {
+    constructor(view, dataManager) {
         console.log('GuestController::constructor()');
 
         super();
 
         this._view = view;
+        this._dataManager = dataManager;
     }
 
     initialize() {
         console.log('GuestController::initialize()');
         this._view.getElementById('guest-form-add-button').addEventListener('click', this._onClickAddButton.bind(this));
+    }
+
+    update(observable /*, param*/ ) {
+        console.log('GuestController::update()');
+
+
     }
 
     _onClickAddButton() {

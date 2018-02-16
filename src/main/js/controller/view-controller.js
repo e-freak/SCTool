@@ -7,13 +7,13 @@
 
 
 import MenuController from './menu-controller';
-import MenuType from '../property/menu-type';
+import MenuType from './menu-type';
 
-import GuestController from './guest-controller';
-import TableController from './table-controller';
-import SeatingChartController from './seating-chart-controller';
+import GuestController from './observer/guest-controller';
+import TableController from './observer/table-controller';
+import SeatingChartController from './observer/seating-chart-controller';
 
-import SeatingChartLayouter from '../seating-chart/seating-chart-layouter';
+import DataManager from '../observable/data-manager';
 
 export default class ViewController {
     constructor(view) {
@@ -22,18 +22,18 @@ export default class ViewController {
 
         this._menuController = new MenuController(view);
 
-        // 席次表のレイアウトを管理するクラス
-        this._seatingChartLayouter = new SeatingChartLayouter(view);
+        // 席次表のデータを管理するクラス
+        this._dataManager = new DataManager(view);
 
-        // 各種GUI操作を受けてレイアウトクラスにイベントを発送するクラス群
-        this._guestController = new GuestController(view);
-        this._guestController.addObserver(this._seatingChartLayouter);
+        // コントローラークラス
+        this._guestController = new GuestController(view, this._dataManager);
+        this._tableController = new TableController(view, this._dataManager);
+        this._seatingChartController = new SeatingChartController(view, this._dataManager);
 
-        this._tableController = new TableController(view);
-        this._tableController.addObserver(this._seatingChartLayouter);
-
-        this._seatingChartController = new SeatingChartController(view);
-        this._seatingChartController.addObserver(this._seatingChartLayouterr);
+        // 情報の変更がされた場合、各コントローラクラスに通知する
+        this._dataManager.addObserver(this._guestController);
+        this._dataManager.addObserver(this._tableController);
+        this._dataManager.addObserver(this._seatingChartController);
 
     }
 

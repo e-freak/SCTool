@@ -20,9 +20,9 @@ export default class Observable {
         }
     }
 
-    notifyAllObserver(param) {
+    notifyAllObserver(data) {
         this._observerList.forEach((observer) => {
-            observer.update(this, param);
+            observer.update(this, data);
         });
     }
 

@@ -81,23 +81,6 @@ img#table-button-img {
 }
 
 
-/* SeatingChart Panel */
-
-div.seating-chart-panel {
-    width: 1140px;
-    height: 100%;
-    position: relative;
-}
-
-div.section-col {
-    border: 1px inset red;
-}
-
-div.section-row {
-    border: 1px inset yellowgreen;
-}
-
-
 /* Menu Panel */
 
 div.menu-panel {
@@ -361,4 +344,38 @@ img#table-type-radio-img-round {
 
 img#table-type-radio-img-square {
     border: 3px inset transparent;
+}
+
+
+/* SeatingChart Panel */
+
+div.seating-chart-panel {
+    width: 1140px;
+    height: 100%;
+    display: flex;
+    /*複数行表示*/
+    flex-direction: row;
+    flex-wrap: wrap;
+    /*等間隔割付*/
+    justify-content: space-around;
+    align-content: space-around;
+}
+
+div.seating-chart-item {
+    /*background-color: blue;*/
+    border-color: red;
+}
+
+div.seating-chart-guest-panel {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    margin: 0 auto;
+}
+
+div.seating-chart-guest {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: #999;
 }
