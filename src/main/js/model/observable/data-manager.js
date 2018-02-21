@@ -170,34 +170,26 @@ export default class DataManager extends Observable {
 
     _handleToPushGuest(param) {
         console.log('DataManager::_handleToPushGuest()');
-        alert('DataManager::_handleToPushGuest()');
 
         // 存在しないテーブルインデックス指定は処理しない
-        if (this._isExistTabeleIndex(tableIndex) === false) {
-            throw Error("Range Error");
+        const tableIndex = parseInt(param["targetTableIndex"]);
+        if (this._isExistTableIndex(tableIndex) === false) {
+            throw Error("Range Error: " + tableIndex);
         };
 
         let guestList = this._tableList[tableIndex]["GuestList"];
-
-        // 末尾追加指定を除き、存在しないインデックス指定は処理しない
-        const guestIndex = parseInt(param["targetGuestIndex"]);
-        if (!this._isExistGuestIndex(tableIndex, guestIndex)) {
-            if (guestIndex !== guestList.length) {
-                throw Error("Range Error");
-            }
-        }
 
         // すでに上限に達している場合は処理しない
         if (guestList.length >= this._guestMax) {
             throw Error("Range Error");
         }
 
-        // 新規ゲスト情報を挿入or末尾追加する
+        // 新規ゲスト情報を追加する
         const newGuestInfo = {
-            "Src": param["src"]
+            "src": param["GuestInfo"]["src"]
         };
 
-        guestList.splice(guestIndex, 0, newGuestInfo);
+        guestList.splice(guestList.length, 0, newGuestInfo);
 
         // 結果を反映
         this._tableList[tableIndex]["GuestList"] = guestList;
@@ -251,10 +243,6 @@ export default class DataManager extends Observable {
 
     _isExistTableIndex(tableIndex) {
         console.log('DataManager::_isExistTableIndex()');
-
-        if (tableIndex !== Object.prototype.toString.call(new Number(1))) {
-            return false;
-        }
 
         return (tableIndex >= 0 && tableIndex < this._tableList.length) ? true : false;
     }

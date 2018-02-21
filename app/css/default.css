@@ -361,21 +361,7 @@ div.seating-chart-panel {
     align-content: space-around;
 }
 
-div.seating-chart-item {
+div.seating-chart-item-panel {
     /*background-color: blue;*/
-    border-color: red;
-}
-
-div.seating-chart-guest-panel {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    margin: 0 auto;
-}
-
-div.seating-chart-guest {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    background-color: #999;
+    border: 1px inset red;
 }
