@@ -80,9 +80,9 @@ export default class SeatingChartController extends Observer {
         let itemList = this._view.getElementsByClassName("seating-chart-item");
 
         let canvas = this._view.createElement("canvas");
-        const tableSize = Math.min(itemList[0].style.clientWidth, itemList[0].style.clientHeight) * 0.3;
-        canvas.width = tableSize;
-        canvas.height = tableSize;
+        const tableSize = parseInt(Math.min(itemList[0].clientWidth, itemList[0].clientHeight) * 0.5);
+
+        canvas.width = canvas.height = tableSize;
 
         let ctx = canvas.getContext('2d');
         ctx.strokeStyle = "rgb(200,210,250)";
@@ -114,7 +114,9 @@ export default class SeatingChartController extends Observer {
             tableImgElement.alt = `tableImage`;
             // tableImgElement.style.zIndex = -99;
             item.appendChild(tableImgElement);
-            //item.style.textAlign = 'center';
+            item.style.display = 'flex';
+            item.style.justifyContent = 'center';
+            item.style.alignItems = 'center';
         }
 
     }
