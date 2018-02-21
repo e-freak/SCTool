@@ -8,7 +8,7 @@
 
 import Observable from './observable';
 
-import Event from './event'
+import Event from '../../common/event'
 
 export default class DataManager extends Observable {
     constructor() {

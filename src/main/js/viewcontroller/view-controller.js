@@ -13,7 +13,7 @@ import GuestController from './observer/guest-controller';
 import TableController from './observer/table-controller';
 import SeatingChartController from './observer/seating-chart-controller';
 
-import DataManager from '../observable/data-manager';
+import DataManager from '../model/observable/data-manager';
 
 export default class ViewController {
     constructor(view) {

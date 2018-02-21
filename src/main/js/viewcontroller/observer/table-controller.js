@@ -7,7 +7,7 @@
 
 import Observer from "./observer";
 
-import Event from '../../observable/event'
+import Event from '../../common/event'
 
 import TableType from './table-type';
 
