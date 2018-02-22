@@ -62,17 +62,21 @@ export default class SeatingChartController extends Observer {
 
         const tableList = data["tableList"];
         for (let i = 0; i < tableList.length; ++i) {
+            // パネルエレメント追加
             let itemPanelElement = this._view.createElement("div");
             itemPanelElement.id = `seating-chart-item-panel-${i}`;
             itemPanelElement.className = `seating-chart-item-panel`;
+            seatingChartPanel.appendChild(itemPanelElement);
+
+            // デザイン
             itemPanelElement.style.width = String(itemPanelWidth - 3) + 'px';
             itemPanelElement.style.height = String(itemPanelHeight - 3) + 'px';
 
+            // イベントリスナー追加
             itemPanelElement.addEventListener('dragover', this._stopDefAction.bind(this));
             itemPanelElement.addEventListener('drop', this._stopDefAction.bind(this));
             itemPanelElement.addEventListener('drop', this._onDropAvatar.bind(this));
 
-            seatingChartPanel.appendChild(itemPanelElement);
         }
     }
 
@@ -85,9 +89,8 @@ export default class SeatingChartController extends Observer {
         };
 
         let canvas = this._view.createElement("canvas");
-        const tableSize = parseInt(Math.min(itemPanelList[0].clientWidth, itemPanelList[0].clientHeight) * 0.5);
-
-        canvas.width = canvas.height = tableSize;
+        const canvasSize = parseInt(Math.min(itemPanelList[0].clientWidth, itemPanelList[0].clientHeight) * 0.5);
+        canvas.width = canvas.height = canvasSize;
 
         let ctx = canvas.getContext('2d');
         ctx.strokeStyle = "rgb(200,210,250)";
@@ -95,34 +98,36 @@ export default class SeatingChartController extends Observer {
 
         const tableType = data["tableType"];
         switch (tableType) {
-            case TableType.TABLE_ROUND:
-                ctx.beginPath();
-                ctx.arc(tableSize / 2, tableSize / 2, tableSize / 2, 0, Math.PI * 2, true);
-                ctx.fill()
-                break;
             case TableType.TABLE_SQUARE:
-                ctx.fillRect(0, 0, tableSize, tableSize);
+                const per = 0.8;
+                const origin = canvasSize * (1 - per) * 0.5;
+                ctx.fillRect(origin, origin, canvasSize * per, canvasSize * per);
                 break;
+
+            case TableType.TABLE_ROUND:
             default:
                 ctx.beginPath();
-                ctx.arc(tableSize / 2, tableSize / 2, tableSize / 2, 0, Math.PI * 2, true);
-                ctx.fill()
+                ctx.arc(canvasSize * 0.5, canvasSize * 0.5, canvasSize * 0.5, 0, Math.PI * 2, true);
+                ctx.fill();
                 break;
         }
 
 
         for (let itemPanel of itemPanelList) {
+            // テーブルエレメント追加
             let tableImgElement = this._view.createElement("img");
             tableImgElement.className = `seating-chart-item-panel-element-table`;
             tableImgElement.width = canvas.width;
             tableImgElement.height = canvas.height;
             tableImgElement.src = canvas.toDataURL();
             tableImgElement.alt = `tableImage`;
-            // tableImgElement.style.zIndex = -99;
             itemPanel.appendChild(tableImgElement);
+
+            // デザイン
             itemPanel.style.display = 'flex';
             itemPanel.style.justifyContent = 'center';
             itemPanel.style.alignItems = 'center';
+            // tableImgElement.style.zIndex = -99;
         }
 
     }
@@ -142,46 +147,53 @@ export default class SeatingChartController extends Observer {
             return;
         };
 
-        const guestSize = parseInt(Math.min(itemPanelList[0].clientWidth, itemPanelList[0].clientHeight) * 0.2);
-
         for (let i = 0; i < tableList.length; ++i) {
-
             const guestList = tableList[i]["GuestList"];
-            for (let j = 0; j < guestList.length; ++j) {
 
+            for (let j = 0; j < guestList.length; ++j) {
                 const guestInfo = guestList[j];
 
+                // ゲストエレメント追加
                 let guestImgElement = this._view.createElement("img");
                 guestImgElement.id = `seating-chart-item-panel-element-guest-${j}`;
                 guestImgElement.className = `seating-chart-item-panel-element-guest`;
+                const guestSize = parseInt(Math.min(itemPanelList[i].clientWidth, itemPanelList[i].clientHeight) * 0.2);
                 guestImgElement.width = guestSize;
                 guestImgElement.height = guestSize;
                 guestImgElement.src = guestInfo["src"];
                 guestImgElement.alt = `guestImage`;
-                // tableImgElement.style.zIndex = -99;
-
                 itemPanelList[i].appendChild(guestImgElement);
 
-                // 円周状に配置する
+                
+                // デザイン
                 itemPanelList[i].style.position = 'relative';
                 guestImgElement.style.position = 'absolute';
 
-                let deg = 360.0 / guestList.length;
-                let red = (deg * Math.PI / 180.0);
-                let circle_r = guestImgElement.clientWidth * 2.5;
-                const x = Math.cos(red * j) * circle_r + circle_r;
-                const y = Math.sin(red * j) * circle_r + circle_r;
+                const tableType = data["tableType"];
+                switch (tableType) {
+                    case TableType.TABLE_SQUARE:
+                        break;
+                    case TableType.TABLE_ROUND:
+                    default:
+                        // 円周状に配置する
+                        const centerX = itemPanelList[i].clientWidth / 2;
+                        const centerY = itemPanelList[i].clientHeight / 2;
 
-                guestImgElement.style.left = String(x) + 'px';
-                guestImgElement.style.top = String(y) + 'px';
+                        // 天頂から始める
+                        const deg = ((360.0 / guestList.length) * j) - 90.0;
+                        const radian = (deg * Math.PI) / 180.0;
+                        const radius = parseInt(Math.min(itemPanelList[i].clientWidth, itemPanelList[i].clientHeight)) * 0.5 * 0.75;
+                        // 単位円上の座標 * 半径 + 中央合わせ - CSS（右上）合わせ
+                        const x = Math.cos(radian) * radius + centerX - (guestImgElement.width / 2);
+                        const y = Math.sin(radian) * radius + centerY - (guestImgElement.height / 2);
 
-
-            }
-
-
-
-
+                        guestImgElement.style.left = String(x) + 'px';
+                        guestImgElement.style.top = String(y) + 'px';
+                        break;
+                }
+            }    
         }
+
     }
 
     _stopDefAction(evt) {
