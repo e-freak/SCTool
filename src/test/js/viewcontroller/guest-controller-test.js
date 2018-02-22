@@ -4,7 +4,7 @@
 
 import assert from 'assert';
 
-import GuestController from '../../../app/script/controller/guest-controller.js';
+import GuestController from '../../../app/script/viewcontroller/observer/guest-controller.js';
 import MockView from '../mock-view';
 
 describe('[Class] GustController', () => {
