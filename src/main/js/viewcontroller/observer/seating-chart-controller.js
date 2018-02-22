@@ -75,7 +75,7 @@ export default class SeatingChartController extends Observer {
             // イベントリスナー追加
             itemPanelElement.addEventListener('dragover', this._stopDefAction.bind(this));
             itemPanelElement.addEventListener('drop', this._stopDefAction.bind(this));
-            itemPanelElement.addEventListener('drop', this._onDropAvatar.bind(this));
+            itemPanelElement.addEventListener('drop', this. _onDropToItemPanel.bind(this));
 
         }
     }
@@ -112,22 +112,24 @@ export default class SeatingChartController extends Observer {
                 break;
         }
 
-
-        for (let itemPanel of itemPanelList) {
+        for (let i = 0; i < itemPanelList.length; ++i) {
             // テーブルエレメント追加
             let tableImgElement = this._view.createElement("img");
+            tableImgElement.id = `seating-chart-item-panel-element-table-${i}`;
             tableImgElement.className = `seating-chart-item-panel-element-table`;
             tableImgElement.width = canvas.width;
             tableImgElement.height = canvas.height;
             tableImgElement.src = canvas.toDataURL();
             tableImgElement.alt = `tableImage`;
-            itemPanel.appendChild(tableImgElement);
+            itemPanelList[i].appendChild(tableImgElement);
 
             // デザイン
-            itemPanel.style.display = 'flex';
-            itemPanel.style.justifyContent = 'center';
-            itemPanel.style.alignItems = 'center';
-            // tableImgElement.style.zIndex = -99;
+            itemPanelList[i].style.display = 'flex';
+            itemPanelList[i].style.justifyContent = 'center';
+            itemPanelList[i].style.alignItems = 'center';
+
+            // イベントリスナー追加
+            tableImgElement.addEventListener('dragstart', this._onDragStartTable.bind(this));
         }
 
     }
@@ -232,26 +234,60 @@ export default class SeatingChartController extends Observer {
 
     //_onDragEnterAvatar() {}
 
-    _onDropAvatar(event) {
-        console.log('GuestController::_onDropAvatar()');
+    _onDropToItemPanel(event) {
+        console.log('SeatingChartController::_onDropItemPanel()');
 
         // 自身のパネルインデックスを取得
         let itemPanelList = this._view.getElementsByClassName("seating-chart-item-panel");
-        let myPanel = this._view.getElementById(event.target.id);
+        let myPanel = this._view.getElementById(event.currentTarget.id);
         let myPanelIndex = [].slice.call(itemPanelList).indexOf(myPanel);
 
-        alert(myPanelIndex);
-
+        // 受け取ったものによって処理を変更
         const targetID = event.dataTransfer.getData("text");
 
-        const param = {
-            event: Event.EVENT_PUSH_GUEST,
-            targetTableIndex: myPanelIndex,
-            GuestInfo: {
-                src: this._view.getElementById(targetID).src
-            }
+        console.log(targetID);
+
+        switch (this._view.getElementById(targetID).className) {
+            case "guest-avatar":
+                {
+                    const param = {
+                        event: Event.EVENT_PUSH_GUEST,
+                        targetTableIndex: myPanelIndex,
+                        GuestInfo: {
+                            src: this._view.getElementById(targetID).src
+                        }
+                    }
+
+                    this._dataManager.handleEvent(param);
+                }
+                break;
+
+            case "seating-chart-item-panel-element-table":
+                {
+                    let targetPanel = this._view.getElementById(targetID).parentNode;
+                    let targetPanelIndex = [].slice.call(itemPanelList).indexOf(targetPanel);
+                    
+                    const param = {
+                        event: Event.EVENT_SWAP_TABLE,
+                        targetTableIndex: [targetPanelIndex,myPanelIndex]
+                    }
+
+                    this._dataManager.handleEvent(param);
+                }
+                break;
+            break;
+            default:
+            break
         }
 
-        this._dataManager.handleEvent(param);
+
+
+        
     }
+
+    _onDragStartTable(event) {
+        console.log('SeatingChartController::_onDragStartTable()');
+        event.dataTransfer.setData("text/plain", event.currentTarget.id);
+    }
+
 }

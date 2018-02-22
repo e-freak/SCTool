@@ -141,7 +141,7 @@ export default class GuestController extends Observer {
 
     _onDragStartAvatar(event) {
         console.log('GuestController::_onDragStartAvatar()');
-        event.dataTransfer.setData("text/plain", event.target.id);
+        event.dataTransfer.setData("text/plain", event.currentTarget.id);
     }
 
 }
