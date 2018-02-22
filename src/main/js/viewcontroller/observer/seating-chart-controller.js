@@ -172,29 +172,55 @@ export default class SeatingChartController extends Observer {
                 const tableType = data["tableType"];
                 switch (tableType) {
                     case TableType.TABLE_SQUARE:
+                        {
+                            // 向かい合わせに配置する
+                            let x = 0;
+                            let y = 0;
+                            if((j + 1) % 2 !== 0){
+                                // 奇数（左列配置）の場合
+                                const leftGuestNum = Math.ceil(guestList.length / 2);
+                                // 位置 - CSS（右上）合わせ
+                                x = (itemPanelList[i].clientWidth * 0.2) - (guestImgElement.width / 2);
+                                y = (itemPanelList[i].clientHeight / (leftGuestNum+1)) * Math.ceil((j+1) / 2) - (guestImgElement.height / 2);
+
+                            }
+                            else{
+                                // 偶数（右列配置の場合）
+                                const rightGuestNum = Math.floor(guestList.length / 2);
+                                // 位置 - CSS（右上）合わせ
+                                x = (itemPanelList[i].clientWidth * 0.8) - (guestImgElement.width / 2);
+                                y = (itemPanelList[i].clientHeight / (rightGuestNum + 1)) * Math.floor((j+1)/ 2) - (guestImgElement.height / 2);
+                            }
+                            guestImgElement.style.left = String(x) + 'px';
+                            guestImgElement.style.top = String(y) + 'px';
+                        }
                         break;
                     case TableType.TABLE_ROUND:
                     default:
-                        // 円周状に配置する
-                        const centerX = itemPanelList[i].clientWidth / 2;
-                        const centerY = itemPanelList[i].clientHeight / 2;
+                        {
+                            // 円周状に配置する
+                            const centerX = itemPanelList[i].clientWidth / 2;
+                            const centerY = itemPanelList[i].clientHeight / 2;
 
-                        // 天頂から始める
-                        const deg = ((360.0 / guestList.length) * j) - 90.0;
-                        const radian = (deg * Math.PI) / 180.0;
-                        const radius = parseInt(Math.min(itemPanelList[i].clientWidth, itemPanelList[i].clientHeight)) * 0.5 * 0.75;
-                        // 単位円上の座標 * 半径 + 中央合わせ - CSS（右上）合わせ
-                        const x = Math.cos(radian) * radius + centerX - (guestImgElement.width / 2);
-                        const y = Math.sin(radian) * radius + centerY - (guestImgElement.height / 2);
+                            // 天頂から始める
+                            const deg = ((360.0 / guestList.length) * j) - 90.0;
+                            const radian = (deg * Math.PI) / 180.0;
+                            const radius = parseInt(Math.min(itemPanelList[i].clientWidth, itemPanelList[i].clientHeight)) * 0.5 * 0.75;
+                            // 単位円上の座標 * 半径 + 中央合わせ - CSS（右上）合わせ
+                            const x = Math.cos(radian) * radius + centerX - (guestImgElement.width / 2);
+                            const y = Math.sin(radian) * radius + centerY - (guestImgElement.height / 2);
 
-                        guestImgElement.style.left = String(x) + 'px';
-                        guestImgElement.style.top = String(y) + 'px';
+                            guestImgElement.style.left = String(x) + 'px';
+                            guestImgElement.style.top = String(y) + 'px';
+                        }
                         break;
                 }
             }    
         }
 
     }
+
+    
 
     _stopDefAction(evt) {
         evt.preventDefault();
