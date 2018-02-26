@@ -28,16 +28,21 @@ export default class SeatingChartController extends Observer {
     initialize() {
         console.log('SeatingChartController::initialize()');
 
+        const trashbox = this._view.getElementById('trashbox');
 
+        // イベントリスナー追加
+        trashbox.addEventListener('dragover', this._stopDefAction.bind(this));
+        trashbox.addEventListener('drop', this._stopDefAction.bind(this));
+        trashbox.addEventListener('drop', this._onDropTrashbox.bind(this));
     }
 
     update(observable, data) {
         console.log('SeatingChartController::update()');
 
-        const seatingChartPanel = this._view.getElementById('seating-chart-panel');
+        const seatingChart = this._view.getElementById('seating-chart');
 
         // 古い情報を削除する
-        seatingChartPanel.innerHTML = "";
+        seatingChart.innerHTML = "";
 
         // テーブル数を元に基本のitemレイアウトを作成する
         this._updateBaseLayout(data);
@@ -53,12 +58,12 @@ export default class SeatingChartController extends Observer {
     _updateBaseLayout(data) {
         console.log('SeatingChartController::_updateBaseLayout()');
 
-        const seatingChartPanel = this._view.getElementById('seating-chart-panel');
+        const seatingChart = this._view.getElementById('seating-chart');
 
         const hNum = this._view.getElementById('table-layout-h').value;
         const vNum = this._view.getElementById('table-layout-v').value;
-        const itemPanelWidth = parseInt(seatingChartPanel.clientWidth / hNum);
-        const itemPanelHeight = parseInt(seatingChartPanel.clientHeight / vNum);
+        const itemPanelWidth = parseInt(seatingChart.clientWidth / hNum);
+        const itemPanelHeight = parseInt(seatingChart.clientHeight / vNum);
 
         const tableList = data["tableList"];
         for (let i = 0; i < tableList.length; ++i) {
@@ -66,7 +71,7 @@ export default class SeatingChartController extends Observer {
             let itemPanelElement = this._view.createElement("div");
             itemPanelElement.id = `seating-chart-item-panel-${i}`;
             itemPanelElement.className = `seating-chart-item-panel`;
-            seatingChartPanel.appendChild(itemPanelElement);
+            seatingChart.appendChild(itemPanelElement);
 
             // デザイン
             itemPanelElement.style.width = String(itemPanelWidth - 3) + 'px';
@@ -75,7 +80,7 @@ export default class SeatingChartController extends Observer {
             // イベントリスナー追加
             itemPanelElement.addEventListener('dragover', this._stopDefAction.bind(this));
             itemPanelElement.addEventListener('drop', this._stopDefAction.bind(this));
-            itemPanelElement.addEventListener('drop', this. _onDropToItemPanel.bind(this));
+            itemPanelElement.addEventListener('drop', this._onDropItemPanel.bind(this));
 
         }
     }
@@ -166,7 +171,7 @@ export default class SeatingChartController extends Observer {
                 guestImgElement.alt = `guestImage`;
                 itemPanelList[i].appendChild(guestImgElement);
 
-                
+
                 // デザイン
                 itemPanelList[i].style.position = 'relative';
                 guestImgElement.style.position = 'absolute';
@@ -178,20 +183,19 @@ export default class SeatingChartController extends Observer {
                             // 向かい合わせに配置する
                             let x = 0;
                             let y = 0;
-                            if((j + 1) % 2 !== 0){
+                            if ((j + 1) % 2 !== 0) {
                                 // 奇数（左列配置）の場合
                                 const leftGuestNum = Math.ceil(guestList.length / 2);
                                 // 位置 - CSS（右上）合わせ
                                 x = (itemPanelList[i].clientWidth * 0.2) - (guestImgElement.width / 2);
-                                y = (itemPanelList[i].clientHeight / (leftGuestNum+1)) * Math.ceil((j+1) / 2) - (guestImgElement.height / 2);
+                                y = (itemPanelList[i].clientHeight / (leftGuestNum + 1)) * Math.ceil((j + 1) / 2) - (guestImgElement.height / 2);
 
-                            }
-                            else{
+                            } else {
                                 // 偶数（右列配置の場合）
                                 const rightGuestNum = Math.floor(guestList.length / 2);
                                 // 位置 - CSS（右上）合わせ
                                 x = (itemPanelList[i].clientWidth * 0.8) - (guestImgElement.width / 2);
-                                y = (itemPanelList[i].clientHeight / (rightGuestNum + 1)) * Math.floor((j+1)/ 2) - (guestImgElement.height / 2);
+                                y = (itemPanelList[i].clientHeight / (rightGuestNum + 1)) * Math.floor((j + 1) / 2) - (guestImgElement.height / 2);
                             }
                             guestImgElement.style.left = String(x) + 'px';
                             guestImgElement.style.top = String(y) + 'px';
@@ -217,12 +221,12 @@ export default class SeatingChartController extends Observer {
                         }
                         break;
                 }
-            }    
+            }
         }
 
     }
 
-    
+
 
     _stopDefAction(evt) {
         evt.preventDefault();
@@ -234,7 +238,53 @@ export default class SeatingChartController extends Observer {
 
     //_onDragEnterAvatar() {}
 
-    _onDropToItemPanel(event) {
+
+    _onDropTrashbox(event) {
+
+        // 対象を削除する
+        const targetID = event.dataTransfer.getData("text");
+
+        switch (this._view.getElementById(targetID).className) {
+            case "guest-avatar":
+                {
+                    /*
+                    let targetPanel = this._view.getElementById(targetID).parentNode;
+                    let targetPanelIndex = [].slice.call(itemPanelList).indexOf(targetPanel);
+
+                    const param = {
+                        event: Event.EVENT_POP_GUEST,
+                        targetTableIndex: myPanelIndex,
+                        GuestInfo: {
+                            src: this._view.getElementById(targetID).src
+                        }
+                    }
+
+                    this._dataManager.handleEvent(param);
+                    */
+                }
+                break;
+
+            case "seating-chart-item-panel-element-table":
+                {
+                    let itemPanelList = this._view.getElementsByClassName("seating-chart-item-panel");
+                    let targetPanel = this._view.getElementById(targetID).parentNode;
+                    let targetPanelIndex = [].slice.call(itemPanelList).indexOf(targetPanel);
+
+                    const param = {
+                        event: Event.EVENT_POP_TABLE,
+                        targetTableIndex: targetPanelIndex
+                    }
+
+                    this._dataManager.handleEvent(param);
+                }
+                break;
+            default:
+                break
+        }
+
+    }
+
+    _onDropItemPanel(event) {
         console.log('SeatingChartController::_onDropItemPanel()');
 
         // 自身のパネルインデックスを取得
@@ -266,23 +316,23 @@ export default class SeatingChartController extends Observer {
                 {
                     let targetPanel = this._view.getElementById(targetID).parentNode;
                     let targetPanelIndex = [].slice.call(itemPanelList).indexOf(targetPanel);
-                    
+
                     const param = {
                         event: Event.EVENT_SWAP_TABLE,
-                        targetTableIndex: [targetPanelIndex,myPanelIndex]
+                        targetTableIndex: [targetPanelIndex, myPanelIndex]
                     }
 
                     this._dataManager.handleEvent(param);
                 }
                 break;
-            break;
+                break;
             default:
-            break
+                break
         }
 
 
 
-        
+
     }
 
     _onDragStartTable(event) {
