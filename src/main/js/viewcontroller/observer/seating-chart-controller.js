@@ -221,6 +221,10 @@ export default class SeatingChartController extends Observer {
                         }
                         break;
                 }
+
+
+                // イベントリスナー追加
+                guestImgElement.addEventListener('dragstart', this._onDragStartGuest.bind(this));
             }
         }
 
@@ -232,12 +236,6 @@ export default class SeatingChartController extends Observer {
         evt.preventDefault();
     }
 
-    //_onDragOverAvatar() {}
-
-    //_onDragLeaveAvatar() {}
-
-    //_onDragEnterAvatar() {}
-
 
     _onDropTrashbox(event) {
 
@@ -245,22 +243,24 @@ export default class SeatingChartController extends Observer {
         const targetID = event.dataTransfer.getData("text");
 
         switch (this._view.getElementById(targetID).className) {
-            case "guest-avatar":
+            case "seating-chart-item-panel-element-guest":
                 {
-                    /*
+                    let itemPanelList = this._view.getElementsByClassName("seating-chart-item-panel");
                     let targetPanel = this._view.getElementById(targetID).parentNode;
                     let targetPanelIndex = [].slice.call(itemPanelList).indexOf(targetPanel);
 
+                    let guestImgList = this._view.getElementsByClassName("seating-chart-item-panel-element-guest");
+                    let targetElement = this._view.getElementById(targetID);
+                    let targetElementIndex = [].slice.call(guestImgList).indexOf(targetElement);
+
+
                     const param = {
                         event: Event.EVENT_POP_GUEST,
-                        targetTableIndex: myPanelIndex,
-                        GuestInfo: {
-                            src: this._view.getElementById(targetID).src
-                        }
+                        targetTableIndex: targetPanelIndex,
+                        targetGuestIndex: targetElementIndex
                     }
 
                     this._dataManager.handleEvent(param);
-                    */
                 }
                 break;
 
@@ -312,6 +312,8 @@ export default class SeatingChartController extends Observer {
                 }
                 break;
 
+
+
             case "seating-chart-item-panel-element-table":
                 {
                     let targetPanel = this._view.getElementById(targetID).parentNode;
@@ -339,5 +341,11 @@ export default class SeatingChartController extends Observer {
         console.log('SeatingChartController::_onDragStartTable()');
         event.dataTransfer.setData("text/plain", event.currentTarget.id);
     }
+
+    _onDragStartGuest(event) {
+        console.log('SeatingChartController::_onDragStartGuest()');
+        event.dataTransfer.setData("text/plain", event.currentTarget.id);
+    }
+
 
 }

@@ -105,7 +105,6 @@ export default class DataManager extends Observable {
 
     _handleToPushTable(param) {
         console.log('DataManager::_handleToPushTable()');
-        alert('DataManager::_handleToPushTable()');
 
         // すでに上限に達している場合は処理しない
         if (this._tableList.length >= this._tableMax) {
@@ -130,7 +129,7 @@ export default class DataManager extends Observable {
 
     _handleToPopTable(param) {
         console.log('DataManager::_handleToPopTable()');
-        alert('DataManager::_handleToPopTable()');
+
 
         // すでに下限に達している場合は処理しない
         if (this._tableList.length <= this._tableMin) {
@@ -150,7 +149,6 @@ export default class DataManager extends Observable {
 
     _handleToSwapTable(param) {
         console.log('DataManager::_handleToSwapTable()');
-        alert('DataManager::_handleToSwapTable()');
 
         const index1 = parseInt(param["targetTableIndex"][0]);
         const index2 = parseInt(param["targetTableIndex"][1]);
@@ -174,7 +172,7 @@ export default class DataManager extends Observable {
         // 存在しないテーブルインデックス指定は処理しない
         const tableIndex = parseInt(param["targetTableIndex"]);
         if (this._isExistTableIndex(tableIndex) === false) {
-            throw Error("Range Error: " + tableIndex);
+            throw Error("Range Error - [tableIndex]" + tableIndex);
         };
 
         let guestList = this._tableList[tableIndex]["GuestList"];
@@ -203,7 +201,7 @@ export default class DataManager extends Observable {
         const tableIndex = parseInt(param["targetTableIndex"]);
         const guestIndex = parseInt(param["targetGuestIndex"]);
         if (!this._isExistGuestIndex(tableIndex, guestIndex)) {
-            throw Error("Range Error");
+            throw Error("Range Error - [tableIndex]" + tableIndex + " [guestIndex]" + guestIndex);
         }
 
         let guestList = this._tableList[tableIndex]["GuestList"];
@@ -231,7 +229,8 @@ export default class DataManager extends Observable {
 
         if (!this._isExistGuestIndex(tableIndex1, guestIndex1) ||
             !this._isExistGuestIndex(tableIndex2, guestIndex2)) {
-            throw Error("Range Error");
+            throw Error("Range Error - [tableIndex1]" + tableIndex1 + " [guestIndex1]" + guestIndex1 +
+                " [tableIndex2]" + tableIndex2 + " [guestIndex2]" + guestIndex2);
         }
 
         // ゲスト情報を直接入れ替える
@@ -253,14 +252,6 @@ export default class DataManager extends Observable {
         if (this._isExistTableIndex(tableIndex) === false) { return false };
 
         const guestList = this._tableList[tableIndex]["GuestList"];
-
-        if (guestList !== Object.prototype.toString.call([])) {
-            return false;
-        }
-
-        if (guestIndex !== Object.prototype.toString.call(new Number(1))) {
-            return false;
-        }
 
         return (guestIndex >= 0 && guestIndex < guestList.length) ? true : false;
     }
