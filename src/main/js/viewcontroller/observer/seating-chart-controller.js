@@ -162,7 +162,7 @@ export default class SeatingChartController extends Observer {
 
                 // ゲストエレメント追加
                 let guestImgElement = this._view.createElement("img");
-                guestImgElement.id = `seating-chart-item-panel-element-guest-${j}`;
+                guestImgElement.id = `seating-chart-item-panel-element-guest-${i}-${j}`;
                 guestImgElement.className = `seating-chart-item-panel-element-guest`;
                 const guestSize = parseInt(Math.min(itemPanelList[i].clientWidth, itemPanelList[i].clientHeight) * 0.2);
                 guestImgElement.width = guestSize;
@@ -224,7 +224,13 @@ export default class SeatingChartController extends Observer {
 
 
                 // イベントリスナー追加
+
                 guestImgElement.addEventListener('dragstart', this._onDragStartGuest.bind(this));
+
+                guestImgElement.addEventListener('dragover', this._stopDefAction.bind(this));
+                guestImgElement.addEventListener('drop', this._stopDefAction.bind(this));
+                guestImgElement.addEventListener('drop', this._onDropGuestImgElement.bind(this));
+
             }
         }
 
@@ -236,6 +242,115 @@ export default class SeatingChartController extends Observer {
         evt.preventDefault();
     }
 
+    _onDropItemPanel(event) {
+        console.log('SeatingChartController::_onDropItemPanel()');
+
+        // 受け取ったものによって処理を変更
+        const targetID = event.dataTransfer.getData("text");
+
+        switch (this._view.getElementById(targetID).className) {
+            case "guest-avatar":
+                {
+                    // ゲストリストからの新規追加
+
+                    // 自身のパネルインデックスを取得
+                    let itemPanelList = this._view.getElementsByClassName("seating-chart-item-panel");
+                    let myPanel = this._view.getElementById(event.currentTarget.id);
+                    let myPanelIndex = [].slice.call(itemPanelList).indexOf(myPanel);
+
+                    const param = {
+                        event: Event.EVENT_PUSH_GUEST,
+                        targetTableIndex: myPanelIndex,
+                        GuestInfo: {
+                            src: this._view.getElementById(targetID).src
+                        }
+                    }
+
+                    this._dataManager.handleEvent(param);
+                }
+                break;
+
+            case "seating-chart-item-panel-element-table":
+                {
+                    // テーブルの入れ替え
+
+                    // 自身のパネルインデックスを取得
+                    let itemPanelList = this._view.getElementsByClassName("seating-chart-item-panel");
+                    let myPanel = this._view.getElementById(event.currentTarget.id);
+                    let myPanelIndex = [].slice.call(itemPanelList).indexOf(myPanel);
+
+                    // 対象物が属するパネルインデックスを取得
+                    let targetPanel = this._view.getElementById(targetID).parentNode;
+                    let targetPanelIndex = [].slice.call(itemPanelList).indexOf(targetPanel);
+
+                    const param = {
+                        event: Event.EVENT_SWAP_TABLE,
+                        targetTableIndex: [myPanelIndex, targetPanelIndex]
+                    }
+
+                    this._dataManager.handleEvent(param);
+                }
+                break;
+                break;
+            default:
+                break
+        }
+
+
+
+
+    }
+
+    _onDropGuestImgElement(event) {
+        console.log('SeatingChartController::_onDropGuestImgElement()');
+
+        // 受け取ったものによって処理を変更
+        const targetID = event.dataTransfer.getData("text");
+
+        switch (this._view.getElementById(targetID).className) {
+
+            case "seating-chart-item-panel-element-guest":
+                {
+                    // ゲストの入れ替え                     
+
+                    // 自身のインデックスを取得
+                    let itemPanelList = this._view.getElementsByClassName("seating-chart-item-panel");
+                    let myPanel = this._view.getElementById(event.currentTarget.id).parentNode;
+                    let myPanelIndex = [].slice.call(itemPanelList).indexOf(myPanel);
+
+                    let imgElementList = this._view.getElementsByClassName("seating-chart-item-panel-element-guest");
+                    let myImgElement = this._view.getElementById(event.currentTarget.id);
+                    let myImgElementIndex = [].slice.call(imgElementList).indexOf(myImgElement);
+
+                    // 対象物のインデックスを取得
+                    let targetPanel = this._view.getElementById(targetID).parentNode;
+                    let targetPanelIndex = [].slice.call(itemPanelList).indexOf(targetPanel);
+
+                    let targetImgElement = this._view.getElementById(targetID);
+                    let targetImgElementIndex = [].slice.call(imgElementList).indexOf(targetImgElement);
+
+
+                    const param = {
+                        event: Event.EVENT_SWAP_GUEST,
+                        targetTableIndex: [myPanelIndex, targetPanelIndex],
+                        targetGuestIndex: [myImgElementIndex, targetImgElementIndex]
+                    }
+
+                    this._dataManager.handleEvent(param);
+                }
+                break;
+                break;
+            default:
+                break
+        }
+
+
+
+
+    }
+
+
+
 
     _onDropTrashbox(event) {
 
@@ -245,6 +360,7 @@ export default class SeatingChartController extends Observer {
         switch (this._view.getElementById(targetID).className) {
             case "seating-chart-item-panel-element-guest":
                 {
+                    // 対象物のインデックスを取得する
                     let itemPanelList = this._view.getElementsByClassName("seating-chart-item-panel");
                     let targetPanel = this._view.getElementById(targetID).parentNode;
                     let targetPanelIndex = [].slice.call(itemPanelList).indexOf(targetPanel);
@@ -266,6 +382,8 @@ export default class SeatingChartController extends Observer {
 
             case "seating-chart-item-panel-element-table":
                 {
+
+                    // 対象物のインデックスを取得する
                     let itemPanelList = this._view.getElementsByClassName("seating-chart-item-panel");
                     let targetPanel = this._view.getElementById(targetID).parentNode;
                     let targetPanelIndex = [].slice.call(itemPanelList).indexOf(targetPanel);
@@ -284,58 +402,6 @@ export default class SeatingChartController extends Observer {
 
     }
 
-    _onDropItemPanel(event) {
-        console.log('SeatingChartController::_onDropItemPanel()');
-
-        // 自身のパネルインデックスを取得
-        let itemPanelList = this._view.getElementsByClassName("seating-chart-item-panel");
-        let myPanel = this._view.getElementById(event.currentTarget.id);
-        let myPanelIndex = [].slice.call(itemPanelList).indexOf(myPanel);
-
-        // 受け取ったものによって処理を変更
-        const targetID = event.dataTransfer.getData("text");
-
-        console.log(targetID);
-
-        switch (this._view.getElementById(targetID).className) {
-            case "guest-avatar":
-                {
-                    const param = {
-                        event: Event.EVENT_PUSH_GUEST,
-                        targetTableIndex: myPanelIndex,
-                        GuestInfo: {
-                            src: this._view.getElementById(targetID).src
-                        }
-                    }
-
-                    this._dataManager.handleEvent(param);
-                }
-                break;
-
-
-
-            case "seating-chart-item-panel-element-table":
-                {
-                    let targetPanel = this._view.getElementById(targetID).parentNode;
-                    let targetPanelIndex = [].slice.call(itemPanelList).indexOf(targetPanel);
-
-                    const param = {
-                        event: Event.EVENT_SWAP_TABLE,
-                        targetTableIndex: [targetPanelIndex, myPanelIndex]
-                    }
-
-                    this._dataManager.handleEvent(param);
-                }
-                break;
-                break;
-            default:
-                break
-        }
-
-
-
-
-    }
 
     _onDragStartTable(event) {
         console.log('SeatingChartController::_onDragStartTable()');
