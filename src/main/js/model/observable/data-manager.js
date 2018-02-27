@@ -267,6 +267,7 @@ export default class DataManager extends Observable {
         // 新規ゲスト情報を追加する
         const newGuestInfo = {
             "id": param["GuestInfo"]["id"],
+            "name": param["GuestInfo"]["name"],
             "src": param["GuestInfo"]["src"]
         };
 

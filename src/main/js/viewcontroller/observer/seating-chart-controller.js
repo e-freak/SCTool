@@ -182,6 +182,9 @@ export default class SeatingChartController extends Observer {
             for (let j = 0; j < guestList.length; ++j) {
                 const guestInfo = guestList[j];
 
+
+                let guestElement = this._view.createElement("div");
+
                 // ゲストエレメント追加
                 let guestImgElement = this._view.createElement("img");
                 guestImgElement.id = `seating-chart-element-guest-${i}-${j}`;
@@ -191,11 +194,23 @@ export default class SeatingChartController extends Observer {
                 guestImgElement.height = guestSize;
                 guestImgElement.src = guestInfo["src"];
                 guestImgElement.alt = `guestImage`;
-                itemPanelList[i].appendChild(guestImgElement);
+
+                // ツールチップエレメント追加
+                let guestTooltipElement = this._view.createElement("div");
+                guestTooltipElement.id = `guest-tooltip-${i}-${j}`;
+                guestTooltipElement.className = `guest-tooltip`;
+                guestTooltipElement.innerHTML = guestInfo["name"];
+
+                guestElement.appendChild(guestImgElement);
+                guestElement.appendChild(guestTooltipElement);
+
+                itemPanelList[i].appendChild(guestElement);
 
                 // デザイン
                 itemPanelList[i].style.position = 'relative';
                 guestImgElement.style.position = 'absolute';
+                guestTooltipElement.style.position = 'absolute';
+                guestTooltipElement.style.display = 'none';
 
                 const tableType = data["tableType"];
                 switch (tableType) {
@@ -220,6 +235,9 @@ export default class SeatingChartController extends Observer {
                             }
                             guestImgElement.style.left = String(x) + 'px';
                             guestImgElement.style.top = String(y) + 'px';
+
+                            guestTooltipElement.style.left = String(x + guestImgElement.width + 10) + 'px';
+                            guestTooltipElement.style.top = String(y) + 'px';
                         }
                         break;
                     case TableType.TABLE_ROUND:
@@ -239,6 +257,10 @@ export default class SeatingChartController extends Observer {
 
                             guestImgElement.style.left = String(x) + 'px';
                             guestImgElement.style.top = String(y) + 'px';
+
+
+                            guestTooltipElement.style.left = String(x + guestImgElement.width + 10) + 'px';
+                            guestTooltipElement.style.top = String(y) + 'px';
                         }
                         break;
                 }
@@ -251,6 +273,10 @@ export default class SeatingChartController extends Observer {
                 guestImgElement.addEventListener('dragover', this._stopDefAction.bind(this));
                 guestImgElement.addEventListener('drop', this._stopDefAction.bind(this));
                 guestImgElement.addEventListener('drop', this._onDropGuestImgElement.bind(this));
+
+                guestImgElement.addEventListener('mouseover', this._onMouseOverGuestImgElement.bind(this));
+                guestImgElement.addEventListener('mouseout', this._onMouseOutGuestImgElement.bind(this));
+
 
             }
         }
@@ -279,11 +305,13 @@ export default class SeatingChartController extends Observer {
                     let myPanel = this._view.getElementById(event.currentTarget.id);
                     let myPanelIndex = [].slice.call(itemPanelList).indexOf(myPanel);
 
+
                     const param = {
                         event: Event.EVENT_PUSH_GUEST,
                         targetTableIndex: myPanelIndex,
                         GuestInfo: {
                             id: targetID,
+                            name: this._view.getElementById(targetID).parentNode.nextSibling.innerHTML,
                             src: this._view.getElementById(targetID).src
                         }
                     }
@@ -305,7 +333,7 @@ export default class SeatingChartController extends Observer {
                     let myImgElementIndex = (myImgElementList === undefined) ? 0 : myImgElementList.length;
 
                     // 対象物のインデックスを取得
-                    let targetPanel = this._view.getElementById(targetID).parentNode;
+                    let targetPanel = this._view.getElementById(targetID).parentNode.parentNode;
                     let targetPanelIndex = [].slice.call(itemPanelList).indexOf(targetPanel);
 
                     let targetImgElementList = targetPanel.getElementsByClassName("seating-chart-element-guest");
@@ -354,6 +382,31 @@ export default class SeatingChartController extends Observer {
 
     }
 
+    _onMouseOverGuestImgElement(event) {
+        console.log('SeatingChartController::_onMouseOverGuestImgElement()');
+
+        // 通常Tooltipが一つ
+        let element = this._view.getElementById(event.currentTarget.id).nextSibling;
+
+        if (element) {
+
+            element.style.display = 'block';
+        }
+    }
+
+    _onMouseOutGuestImgElement(event) {
+        console.log('SeatingChartController::_onMouseOutGuestImgElement()');
+
+        // 通常Tooltipが一つ
+        let element = this._view.getElementById(event.currentTarget.id).nextSibling;
+
+        if (element) {
+
+            element.style.display = 'none';
+        }
+    }
+
+
     _onDropGuestImgElement(event) {
         console.log('SeatingChartController::_onDropGuestImgElement()');
 
@@ -369,7 +422,7 @@ export default class SeatingChartController extends Observer {
                     let itemPanelList = this._view.getElementsByClassName("seating-chart-panel-item");
 
                     // 自身のインデックスを取得
-                    let myPanel = this._view.getElementById(event.currentTarget.id).parentNode;
+                    let myPanel = this._view.getElementById(event.currentTarget.id).parentNode.parentNode;
                     let myPanelIndex = [].slice.call(itemPanelList).indexOf(myPanel);
 
                     let myImgElementList = myPanel.getElementsByClassName("seating-chart-element-guest");
@@ -377,7 +430,7 @@ export default class SeatingChartController extends Observer {
                     let myImgElementIndex = [].slice.call(myImgElementList).indexOf(myImgElement);
 
                     // 対象物のインデックスを取得
-                    let targetPanel = this._view.getElementById(targetID).parentNode;
+                    let targetPanel = this._view.getElementById(targetID).parentNode.parentNode;
                     let targetPanelIndex = [].slice.call(itemPanelList).indexOf(targetPanel);
 
                     let targetImgElementList = targetPanel.getElementsByClassName("seating-chart-element-guest");

@@ -392,3 +392,13 @@ div.trashbox.open {
     background-image: url('../image/icon/trashbox-open.png');
     background-color: rgba(255, 190, 225, 1.0);
 }
+
+div.guest-tooltip {
+    position: absolute;
+    display: none;
+    padding: 5px 5px;
+    max-width: 100%;
+    color: #555;
+    font-size: 16px;
+    background: #e0edff;
+}
