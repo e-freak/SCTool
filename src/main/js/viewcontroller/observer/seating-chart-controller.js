@@ -93,31 +93,46 @@ export default class SeatingChartController extends Observer {
             return;
         };
 
-        let canvas = this._view.createElement("canvas");
-        const canvasSize = parseInt(Math.min(itemPanelList[0].clientWidth, itemPanelList[0].clientHeight) * 0.5);
-        canvas.width = canvas.height = canvasSize;
-
-        let ctx = canvas.getContext('2d');
-        ctx.strokeStyle = "rgb(200,210,250)";
-        ctx.fillStyle = "rgb(200,210,250)";
-
-        const tableType = data["tableType"];
-        switch (tableType) {
-            case TableType.TABLE_SQUARE:
-                const per = 0.8;
-                const origin = canvasSize * (1 - per) * 0.5;
-                ctx.fillRect(origin, origin, canvasSize * per, canvasSize * per);
-                break;
-
-            case TableType.TABLE_ROUND:
-            default:
-                ctx.beginPath();
-                ctx.arc(canvasSize * 0.5, canvasSize * 0.5, canvasSize * 0.5, 0, Math.PI * 2, true);
-                ctx.fill();
-                break;
-        }
-
         for (let i = 0; i < itemPanelList.length; ++i) {
+
+            let canvas = this._view.createElement("canvas");
+            const canvasSize = parseInt(Math.min(itemPanelList[i].clientWidth, itemPanelList[i].clientHeight) * 0.5);
+            canvas.width = canvas.height = canvasSize;
+
+            let ctx = canvas.getContext('2d');
+            ctx.strokeStyle = "rgb(200,210,250)";
+            ctx.fillStyle = "rgb(200,210,250)";
+            ctx.font = "36px 'Sakkal Majalla'";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+
+            const charCode = 65 + i; // "A"開始
+
+            const tableType = data["tableType"];
+            switch (tableType) {
+                case TableType.TABLE_SQUARE:
+                    const per = 0.8;
+                    const origin = canvasSize * (1 - per) * 0.5;
+                    ctx.fillRect(origin, origin, canvasSize * per, canvasSize * per);
+
+                    // 白抜きでテーブル番号を書く
+                    ctx.fillStyle = "rgb(255,255,255)";
+                    ctx.fillText(String.fromCharCode(charCode), canvasSize * 0.5, canvasSize * 0.5, canvasSize * per * 0.5);
+                    break;
+
+                case TableType.TABLE_ROUND:
+                default:
+                    ctx.beginPath();
+                    ctx.arc(canvasSize * 0.5, canvasSize * 0.5, canvasSize * 0.5, 0, Math.PI * 2, true);
+                    ctx.fill();
+
+                    // 白抜きでテーブル番号を書く
+                    ctx.fillStyle = "rgb(255,255,255)";
+                    ctx.fillText(String.fromCharCode(charCode), canvasSize * 0.5, canvasSize * 0.5, canvasSize * 0.5 * 0.5);
+                    break;
+            }
+
+
             // テーブルエレメント追加
             let tableImgElement = this._view.createElement("img");
             tableImgElement.id = `seating-chart-element-table-${i}`;
