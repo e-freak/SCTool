@@ -32,8 +32,14 @@ export default class SeatingChartController extends Observer {
 
         // イベントリスナー追加
         trashbox.addEventListener('dragover', this._stopDefAction.bind(this));
+        trashbox.addEventListener('dragenter', this._stopDefAction.bind(this));
+        trashbox.addEventListener('dragleave', this._stopDefAction.bind(this));
         trashbox.addEventListener('drop', this._stopDefAction.bind(this));
+        trashbox.addEventListener('dragenter', this._onDragEnterTrashbox.bind(this));
+        trashbox.addEventListener('dragleave', this._onDragLeaveTrashbox.bind(this));
         trashbox.addEventListener('drop', this._onDropTrashbox.bind(this));
+
+        trashbox.className = 'trashbox close';
     }
 
     update(observable, data) {
@@ -397,7 +403,20 @@ export default class SeatingChartController extends Observer {
 
     }
 
+    _onDragEnterTrashbox(event) {
+        console.log('SeatingChartController::_onDragEnterTrashbox()');
+
+        this._view.getElementById("trashbox").className = "trashbox open";
+    }
+
+    _onDragLeaveTrashbox(event) {
+        console.log('SeatingChartController::_onDragLeaveTrashbox()');
+
+        this._view.getElementById("trashbox").className = "trashbox close";
+    }
+
     _onDropTrashbox(event) {
+        console.log('SeatingChartController::_onDropTrashbox()');
 
         // 対象を削除する
         const targetID = event.dataTransfer.getData("text");
@@ -444,6 +463,9 @@ export default class SeatingChartController extends Observer {
             default:
                 break
         }
+
+
+        this._view.getElementById("trashbox").className = "trashbox close";
 
     }
 

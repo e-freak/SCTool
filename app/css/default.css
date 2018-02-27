@@ -367,11 +367,28 @@ div.seating-chart {
 }
 
 div.trashbox {
-    width: 60px;
-    height: 60px;
     position: absolute;
     right: 0px;
     bottom: 0px;
     border-radius: 100% 0% 0%;
-    background-color: #ffbbe0;
+}
+
+div.trashbox.close {
+    width: 60px;
+    height: 60px;
+    background-size: 30%;
+    background-position: bottom 10px right 10px;
+    background-repeat: no-repeat;
+    background-image: url('../image/icon/trashbox-close.png');
+    background-color: rgba(255, 220, 240, 1.0);
+}
+
+div.trashbox.open {
+    width: 120px;
+    height: 120px;
+    background-size: 50%;
+    background-position: bottom 10px right 10px;
+    background-repeat: no-repeat;
+    background-image: url('../image/icon/trashbox-open.png');
+    background-color: rgba(255, 190, 225, 1.0);
 }
