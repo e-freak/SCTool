@@ -67,15 +67,15 @@ export default class SeatingChartController extends Observer {
 
         const tableList = data["tableList"];
         for (let i = 0; i < tableList.length; ++i) {
-            // パネルエレメント追加
+            // パネル追加
             let itemPanelElement = this._view.createElement("div");
-            itemPanelElement.id = `seating-chart-item-panel-${i}`;
-            itemPanelElement.className = `seating-chart-item-panel`;
+            itemPanelElement.id = `seating-chart-panel-item-${i}`;
+            itemPanelElement.className = `seating-chart-panel-item`;
             seatingChart.appendChild(itemPanelElement);
 
             // デザイン
-            itemPanelElement.style.width = String(itemPanelWidth - 3) + 'px';
-            itemPanelElement.style.height = String(itemPanelHeight - 3) + 'px';
+            itemPanelElement.style.width = String(itemPanelWidth) + 'px';
+            itemPanelElement.style.height = String(itemPanelHeight) + 'px';
 
             // イベントリスナー追加
             itemPanelElement.addEventListener('dragover', this._stopDefAction.bind(this));
@@ -87,7 +87,7 @@ export default class SeatingChartController extends Observer {
 
     _updateTable(data) {
         console.log('SeatingChartController::_updateTable()');
-        let itemPanelList = this._view.getElementsByClassName("seating-chart-item-panel");
+        let itemPanelList = this._view.getElementsByClassName("seating-chart-panel-item");
 
         if (itemPanelList.length === 0) {
             return;
@@ -120,8 +120,8 @@ export default class SeatingChartController extends Observer {
         for (let i = 0; i < itemPanelList.length; ++i) {
             // テーブルエレメント追加
             let tableImgElement = this._view.createElement("img");
-            tableImgElement.id = `seating-chart-item-panel-element-table-${i}`;
-            tableImgElement.className = `seating-chart-item-panel-element-table`;
+            tableImgElement.id = `seating-chart-element-table-${i}`;
+            tableImgElement.className = `seating-chart-element-table`;
             tableImgElement.width = canvas.width;
             tableImgElement.height = canvas.height;
             tableImgElement.src = canvas.toDataURL();
@@ -144,7 +144,7 @@ export default class SeatingChartController extends Observer {
         // https://qiita.com/hirokishirai/items/938c4341b0647766d8dc
 
         const tableList = data["tableList"];
-        let itemPanelList = this._view.getElementsByClassName("seating-chart-item-panel");
+        let itemPanelList = this._view.getElementsByClassName("seating-chart-panel-item");
 
         if (tableList.length !== itemPanelList.length) {
             throw Error("Logic Error");
@@ -155,6 +155,7 @@ export default class SeatingChartController extends Observer {
         };
 
         for (let i = 0; i < tableList.length; ++i) {
+
             const guestList = tableList[i]["GuestList"];
 
             for (let j = 0; j < guestList.length; ++j) {
@@ -162,15 +163,14 @@ export default class SeatingChartController extends Observer {
 
                 // ゲストエレメント追加
                 let guestImgElement = this._view.createElement("img");
-                guestImgElement.id = `seating-chart-item-panel-element-guest-${i}-${j}`;
-                guestImgElement.className = `seating-chart-item-panel-element-guest`;
+                guestImgElement.id = `seating-chart-element-guest-${i}-${j}`;
+                guestImgElement.className = `seating-chart-element-guest`;
                 const guestSize = parseInt(Math.min(itemPanelList[i].clientWidth, itemPanelList[i].clientHeight) * 0.2);
                 guestImgElement.width = guestSize;
                 guestImgElement.height = guestSize;
                 guestImgElement.src = guestInfo["src"];
                 guestImgElement.alt = `guestImage`;
                 itemPanelList[i].appendChild(guestImgElement);
-
 
                 // デザイン
                 itemPanelList[i].style.position = 'relative';
@@ -254,7 +254,7 @@ export default class SeatingChartController extends Observer {
                     // ゲストリストからの新規追加
 
                     // 自身のパネルインデックスを取得
-                    let itemPanelList = this._view.getElementsByClassName("seating-chart-item-panel");
+                    let itemPanelList = this._view.getElementsByClassName("seating-chart-panel-item");
                     let myPanel = this._view.getElementById(event.currentTarget.id);
                     let myPanelIndex = [].slice.call(itemPanelList).indexOf(myPanel);
 
@@ -270,12 +270,12 @@ export default class SeatingChartController extends Observer {
                 }
                 break;
 
-            case "seating-chart-item-panel-element-table":
+            case "seating-chart-element-table":
                 {
                     // テーブルの入れ替え
 
                     // 自身のパネルインデックスを取得
-                    let itemPanelList = this._view.getElementsByClassName("seating-chart-item-panel");
+                    let itemPanelList = this._view.getElementsByClassName("seating-chart-panel-item");
                     let myPanel = this._view.getElementById(event.currentTarget.id);
                     let myPanelIndex = [].slice.call(itemPanelList).indexOf(myPanel);
 
@@ -309,26 +309,27 @@ export default class SeatingChartController extends Observer {
 
         switch (this._view.getElementById(targetID).className) {
 
-            case "seating-chart-item-panel-element-guest":
+            case "seating-chart-element-guest":
                 {
                     // ゲストの入れ替え                     
 
+                    let itemPanelList = this._view.getElementsByClassName("seating-chart-panel-item");
+
                     // 自身のインデックスを取得
-                    let itemPanelList = this._view.getElementsByClassName("seating-chart-item-panel");
                     let myPanel = this._view.getElementById(event.currentTarget.id).parentNode;
                     let myPanelIndex = [].slice.call(itemPanelList).indexOf(myPanel);
 
-                    let imgElementList = this._view.getElementsByClassName("seating-chart-item-panel-element-guest");
+                    let myImgElementList = myPanel.getElementsByClassName("seating-chart-element-guest");
                     let myImgElement = this._view.getElementById(event.currentTarget.id);
-                    let myImgElementIndex = [].slice.call(imgElementList).indexOf(myImgElement);
+                    let myImgElementIndex = [].slice.call(myImgElementList).indexOf(myImgElement);
 
                     // 対象物のインデックスを取得
                     let targetPanel = this._view.getElementById(targetID).parentNode;
                     let targetPanelIndex = [].slice.call(itemPanelList).indexOf(targetPanel);
 
+                    let targetImgElementList = targetPanel.getElementsByClassName("seating-chart-element-guest");
                     let targetImgElement = this._view.getElementById(targetID);
-                    let targetImgElementIndex = [].slice.call(imgElementList).indexOf(targetImgElement);
-
+                    let targetImgElementIndex = [].slice.call(targetImgElementList).indexOf(targetImgElement);
 
                     const param = {
                         event: Event.EVENT_SWAP_GUEST,
@@ -349,23 +350,20 @@ export default class SeatingChartController extends Observer {
 
     }
 
-
-
-
     _onDropTrashbox(event) {
 
         // 対象を削除する
         const targetID = event.dataTransfer.getData("text");
 
         switch (this._view.getElementById(targetID).className) {
-            case "seating-chart-item-panel-element-guest":
+            case "seating-chart-element-guest":
                 {
                     // 対象物のインデックスを取得する
-                    let itemPanelList = this._view.getElementsByClassName("seating-chart-item-panel");
+                    let itemPanelList = this._view.getElementsByClassName("seating-chart-panel-item");
                     let targetPanel = this._view.getElementById(targetID).parentNode;
                     let targetPanelIndex = [].slice.call(itemPanelList).indexOf(targetPanel);
 
-                    let guestImgList = this._view.getElementsByClassName("seating-chart-item-panel-element-guest");
+                    let guestImgList = this._view.getElementsByClassName("seating-chart-element-guest");
                     let targetElement = this._view.getElementById(targetID);
                     let targetElementIndex = [].slice.call(guestImgList).indexOf(targetElement);
 
@@ -380,11 +378,11 @@ export default class SeatingChartController extends Observer {
                 }
                 break;
 
-            case "seating-chart-item-panel-element-table":
+            case "seating-chart-element-table":
                 {
 
                     // 対象物のインデックスを取得する
-                    let itemPanelList = this._view.getElementsByClassName("seating-chart-item-panel");
+                    let itemPanelList = this._view.getElementsByClassName("seating-chart-panel-item");
                     let targetPanel = this._view.getElementById(targetID).parentNode;
                     let targetPanelIndex = [].slice.call(itemPanelList).indexOf(targetPanel);
 
