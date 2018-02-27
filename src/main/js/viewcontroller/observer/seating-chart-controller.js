@@ -277,6 +277,7 @@ export default class SeatingChartController extends Observer {
                         event: Event.EVENT_PUSH_GUEST,
                         targetTableIndex: myPanelIndex,
                         GuestInfo: {
+                            id: targetID,
                             src: this._view.getElementById(targetID).src
                         }
                     }

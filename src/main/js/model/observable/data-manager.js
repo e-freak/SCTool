@@ -39,6 +39,9 @@ export default class DataManager extends Observable {
             case Event.EVENT_CHANGE_TABLE_TOTAL:
                 this._handleToChangeTableTotal(param);
                 break;
+            case Event.EVENT_DELETE_GUEST:
+                this._handleToDeleteGuest(param);
+                break;
             case Event.EVENT_PUSH_TABLE:
                 this._handleToPushTable(param);
                 break;
@@ -102,6 +105,50 @@ export default class DataManager extends Observable {
 
         this._tableList = newTableList;
     }
+
+    _handleToDeleteGuest(param) {
+        console.log('DataManager::_handleToDeleteGuest()');
+
+        // ゲストIDを元に一致するゲストを調べる
+        const targetGuestID = param["GuestInfo"]["id"];
+
+        let targetTableIndex = -1;
+        let targetGuestIndex = -1;
+
+        for (let i = 0; i < this._tableList.length; ++i) {
+            const guestList = this._tableList[i]["GuestList"];
+
+            for (let j = 0; j < guestList.length; ++j) {
+                if (targetGuestID === guestList[j]["id"]) {
+                    targetTableIndex = i;
+                    targetGuestIndex = j;
+                    break;
+                }
+            }
+        }
+
+
+        // 存在しないインデックス指定は処理しない
+        if (!this._isExistGuestIndex(targetTableIndex, targetGuestIndex)) {
+            throw Error("Range Error - [tableIndex]" + targetTableIndex + " [guestIndex]" + targetGuestIndex);
+        }
+
+        let targetGuestList = this._tableList[targetTableIndex]["GuestList"];
+
+        // 下限に達している場合は処理しない
+        if (targetGuestList.length <= this._guestMin) {
+            throw Error("Range Error");
+        }
+
+        // ゲスト情報を削除する
+        targetGuestList.splice(targetGuestIndex, 1);
+
+        // 結果を反映
+        this._tableList[targetTableIndex]["GuestList"] = targetGuestList;
+
+
+    }
+
 
     _handleToPushTable(param) {
         console.log('DataManager::_handleToPushTable()');
@@ -182,8 +229,41 @@ export default class DataManager extends Observable {
             throw Error("Range Error");
         }
 
+        // 既に存在するゲストの場合、先に旧情報を削除する
+        const targetGuestID = param["GuestInfo"]["id"];
+        let oldTableIndex = -1;
+        let oldGuestIndex = -1;
+
+        for (let i = 0; i < this._tableList.length; ++i) {
+            const guestList = this._tableList[i]["GuestList"];
+
+            for (let j = 0; j < guestList.length; ++j) {
+                if (targetGuestID === guestList[j]["id"]) {
+                    oldTableIndex = i;
+                    oldGuestIndex = j;
+                    break;
+                }
+            }
+        }
+
+        if (this._isExistGuestIndex(oldTableIndex, oldGuestIndex)) {
+            let oldGuestList = this._tableList[oldTableIndex]["GuestList"];
+
+            // 下限に達している場合は処理しない
+            if (oldGuestList.length <= this._guestMin) {
+                throw Error("Range Error");
+            }
+
+            // ゲスト情報を削除する
+            oldGuestList.splice(oldGuestIndex, 1);
+
+            // 結果を反映
+            this._tableList[oldTableIndex]["GuestList"] = oldGuestList;
+        }
+
         // 新規ゲスト情報を追加する
         const newGuestInfo = {
+            "id": param["GuestInfo"]["id"],
             "src": param["GuestInfo"]["src"]
         };
 

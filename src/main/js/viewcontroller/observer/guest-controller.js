@@ -81,8 +81,22 @@ export default class GuestController extends Observer {
 
         for (let i = 0; i < rowsLength; ++i) {
 
-            // 対象行は削除して終了する
+            // 削除対象行は削除して処理を終了する
             if (i === targetRow.rowIndex) {
+
+                // 対象のゲストが席次表に追加されている可能性があるので削除イベントを発行する
+                const targetAvaterID = `guest-avatar-${i}`;
+
+                const param = {
+                    event: Event.EVENT_DELETE_GUEST,
+                    GuestInfo: {
+                        id: targetAvaterID
+                    }
+                }
+
+                this._dataManager.handleEvent(param);
+
+                // 実際に行を削除するう
                 table.deleteRow(i);
                 deleted = true;
 
@@ -95,12 +109,12 @@ export default class GuestController extends Observer {
                 continue;
             }
 
-            // まだ削除が実行されていない場合はそのままの状態を維持する
+            // まだ削除が実行されていない場合（対象行以前）はそのままの状態を維持して処理を終了する
             if (!deleted) {
                 continue;
             }
 
-            // 削除した後の行情報を更新する
+            // 削除が実行されている場合（対象行以降）は行情報を更新する
             const newIndex = i - 1;
 
             const oldAvaterID = `guest-avatar-${i}`;
