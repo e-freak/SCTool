@@ -60,6 +60,9 @@ export default class DataManager extends Observable {
             case Event.EVENT_SWAP_GUEST:
                 this._handleToSwapGuest(param);
                 break;
+            case Event.EVENT_MOVE_GUEST:
+                this._handleToMoveGuest(param);
+                break;
             default:
                 break;
         }
@@ -302,22 +305,59 @@ export default class DataManager extends Observable {
         console.log('DataManager::_handleToSwapGuest()');
 
         // 存在しないインデックス指定は処理しない
-        const tableIndex1 = parseInt(param["targetTableIndex"][0]);
-        const tableIndex2 = parseInt(param["targetTableIndex"][1]);
-        const guestIndex1 = parseInt(param["targetGuestIndex"][0]);
-        const guestIndex2 = parseInt(param["targetGuestIndex"][1]);
+        const srcTableIndex = parseInt(param["targetTableIndex"][0]);
+        const srcGuestIndex = parseInt(param["targetGuestIndex"][0]);
+        const dstTableIndex = parseInt(param["targetTableIndex"][1]);
+        const dstGuestIndex = parseInt(param["targetGuestIndex"][1]);
 
-        if (!this._isExistGuestIndex(tableIndex1, guestIndex1) ||
-            !this._isExistGuestIndex(tableIndex2, guestIndex2)) {
-            throw Error("Range Error - [tableIndex1]" + tableIndex1 + " [guestIndex1]" + guestIndex1 +
-                " [tableIndex2]" + tableIndex2 + " [guestIndex2]" + guestIndex2);
+        if (!this._isExistGuestIndex(srcTableIndex, srcGuestIndex) ||
+            !this._isExistGuestIndex(dstTableIndex, dstGuestIndex)) {
+            throw Error("Range Error - [srcTableIndex]" + srcTableIndex + " [srcGuestIndex]" + srcGuestIndex +
+                " [dstTableIndex]" + dstTableIndex + " [dstGuestIndex]" + dstGuestIndex);
         }
 
         // ゲスト情報を直接入れ替える
-        const guestInfo1 = this._tableList[tableIndex1]["GuestList"][guestIndex1];
-        this._tableList[tableIndex1]["GuestList"][guestIndex1] = this._tableList[tableIndex2]["GuestList"][guestIndex2];
-        this._tableList[tableIndex2]["GuestList"][guestIndex2] = guestInfo1;
+        const srcGuestInfo = this._tableList[srcTableIndex]["GuestList"][srcGuestIndex];
+        this._tableList[srcTableIndex]["GuestList"][srcGuestIndex] = this._tableList[dstTableIndex]["GuestList"][dstGuestIndex];
+        this._tableList[dstTableIndex]["GuestList"][dstGuestIndex] = srcGuestInfo;
 
+    }
+
+    _handleToMoveGuest(param) {
+        console.log('DataManager::_handleToMoveGuest()');
+
+        // srcのゲストが存在し、dstのゲストが存在しない状態でないと処理をしない
+        const srcTableIndex = parseInt(param["targetTableIndex"][0]);
+        const srcGuestIndex = parseInt(param["targetGuestIndex"][0]);
+        const dstTableIndex = parseInt(param["targetTableIndex"][1]);
+        const dstGuestIndex = parseInt(param["targetGuestIndex"][1]);
+
+        if (!this._isExistGuestIndex(srcTableIndex, srcGuestIndex) ||
+            !this._isExistTableIndex(dstTableIndex) ||
+            this._isExistGuestIndex(dstTableIndex, dstGuestIndex)) {
+            throw Error("Range Error - [srcTableIndex]" + srcTableIndex + " [srcGuestIndex]" + srcGuestIndex +
+                " [dstTableIndex]" + dstTableIndex + " [dstGuestIndex]" + dstGuestIndex);
+        }
+
+        let srcGuestList = this._tableList[srcTableIndex]["GuestList"];
+        let dstGuestList = this._tableList[dstTableIndex]["GuestList"];
+
+        // 上限・下限に達している場合は処理しない
+        if (srcGuestList.length <= this._guestMin) {
+            throw Error("Range Error");
+        }
+        if (dstGuestList.length >= this._guestMax) {
+            throw Error("Range Error");
+        }
+
+        // dstにゲスト情報をコピーする
+        const srcGuestInfo = this._tableList[srcTableIndex]["GuestList"][srcGuestIndex];
+        dstGuestList.splice(dstGuestList.length, 0, srcGuestInfo);
+        this._tableList[dstTableIndex]["GuestList"] = dstGuestList;
+
+        // srcのゲスト情報を削除する
+        srcGuestList.splice(srcGuestIndex, 1);
+        this._tableList[srcTableIndex]["GuestList"] = srcGuestList;
     }
 
     _isExistTableIndex(tableIndex) {

@@ -44,7 +44,7 @@ export default class SeatingChartController extends Observer {
         // 古い情報を削除する
         seatingChart.innerHTML = "";
 
-        // テーブル数を元に基本のitemレイアウトを作成する
+        // テーブル数を元に基本のレイアウトを作成する
         this._updateBaseLayout(data);
 
         // テーブルタイプに応じてテーブルを描画する
@@ -286,6 +286,37 @@ export default class SeatingChartController extends Observer {
                 }
                 break;
 
+            case "seating-chart-element-guest":
+                {
+                    // ゲストの移動                     
+                    let itemPanelList = this._view.getElementsByClassName("seating-chart-panel-item");
+
+                    // 自身のインデックスを取得
+                    let myPanel = this._view.getElementById(event.currentTarget.id);
+                    let myPanelIndex = [].slice.call(itemPanelList).indexOf(myPanel);
+
+                    let myImgElementList = myPanel.getElementsByClassName("seating-chart-element-guest");
+                    let myImgElementIndex = (myImgElementList === undefined) ? 0 : myImgElementList.length;
+
+                    // 対象物のインデックスを取得
+                    let targetPanel = this._view.getElementById(targetID).parentNode;
+                    let targetPanelIndex = [].slice.call(itemPanelList).indexOf(targetPanel);
+
+                    let targetImgElementList = targetPanel.getElementsByClassName("seating-chart-element-guest");
+                    let targetImgElement = this._view.getElementById(targetID);
+                    let targetImgElementIndex = [].slice.call(targetImgElementList).indexOf(targetImgElement);
+
+                    const param = {
+                        event: Event.EVENT_MOVE_GUEST,
+                        // src,dstの順
+                        targetTableIndex: [targetPanelIndex, myPanelIndex],
+                        targetGuestIndex: [targetImgElementIndex, myImgElementIndex]
+                    }
+
+                    this._dataManager.handleEvent(param);
+                }
+                break;
+
             case "seating-chart-element-table":
                 {
                     // テーブルの入れ替え
@@ -301,12 +332,12 @@ export default class SeatingChartController extends Observer {
 
                     const param = {
                         event: Event.EVENT_SWAP_TABLE,
-                        targetTableIndex: [myPanelIndex, targetPanelIndex]
+                        // src,dstの順
+                        targetTableIndex: [targetPanelIndex, myPanelIndex]
                     }
 
                     this._dataManager.handleEvent(param);
                 }
-                break;
                 break;
             default:
                 break
@@ -349,13 +380,13 @@ export default class SeatingChartController extends Observer {
 
                     const param = {
                         event: Event.EVENT_SWAP_GUEST,
-                        targetTableIndex: [myPanelIndex, targetPanelIndex],
-                        targetGuestIndex: [myImgElementIndex, targetImgElementIndex]
+                        // src,dstの順
+                        targetTableIndex: [targetPanelIndex, myPanelIndex],
+                        targetGuestIndex: [targetImgElementIndex, myImgElementIndex]
                     }
 
                     this._dataManager.handleEvent(param);
                 }
-                break;
                 break;
             default:
                 break
