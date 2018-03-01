@@ -479,7 +479,7 @@ export default class SeatingChartController extends Observer {
                 {
                     // 対象物のインデックスを取得する
                     let itemPanelList = this._view.getElementsByClassName("seating-chart-panel-item");
-                    let targetPanel = this._view.getElementById(targetID).parentNode;
+                    let targetPanel = this._view.getElementById(targetID).parentNode.parentNode;
                     let targetPanelIndex = [].slice.call(itemPanelList).indexOf(targetPanel);
 
                     let guestImgList = this._view.getElementsByClassName("seating-chart-element-guest");

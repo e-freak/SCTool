@@ -8,7 +8,7 @@
     "clean-test": "gulp clean-test",
     "build-app": "gulp build-app",
     "build-test": "gulp build-test",
-    "app": "electron SCtool",
+    "app": "electron SCtool --disable-gpu",
     "test": "mocha ./test/script/**/*.js --reporter spec --require babel-register --es_staging"
   },
   "repository": {
@@ -54,5 +54,9 @@
         ]
       }
     }
+  },
+  "dependencies": {
+    "node-gyp": "^3.6.2",
+    "rebuild": "^0.1.2"
   }
 }
