@@ -479,18 +479,18 @@ export default class SeatingChartController extends Observer {
                 {
                     // 対象物のインデックスを取得する
                     let itemPanelList = this._view.getElementsByClassName("seating-chart-panel-item");
+
                     let targetPanel = this._view.getElementById(targetID).parentNode.parentNode;
                     let targetPanelIndex = [].slice.call(itemPanelList).indexOf(targetPanel);
 
-                    let guestImgList = this._view.getElementsByClassName("seating-chart-element-guest");
-                    let targetElement = this._view.getElementById(targetID);
-                    let targetElementIndex = [].slice.call(guestImgList).indexOf(targetElement);
-
+                    let targetImgElementList = targetPanel.getElementsByClassName("seating-chart-element-guest");
+                    let targetImgElement = this._view.getElementById(targetID);
+                    let targetImgElementIndex = [].slice.call(targetImgElementList).indexOf(targetImgElement);
 
                     const param = {
                         event: Event.EVENT_POP_GUEST,
                         targetTableIndex: targetPanelIndex,
-                        targetGuestIndex: targetElementIndex
+                        targetGuestIndex: targetImgElementIndex
                     }
 
                     this._dataManager.handleEvent(param);

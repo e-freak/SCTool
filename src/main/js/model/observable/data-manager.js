@@ -32,6 +32,8 @@ export default class DataManager extends Observable {
 
     handleEvent(param) {
         console.log('DataManager::handleEvent()');
+        console.log('param - ' + JSON.stringify(param));
+
         switch (param.event) {
             case Event.EVENT_CHANGE_TABLE_TYPE:
                 this._handleToChangeTableType(param);
@@ -281,9 +283,11 @@ export default class DataManager extends Observable {
     _handleToPopGuest(param) {
         console.log('DataManager::_handleToPopGuest()');
 
+
         // 存在しないインデックス指定は処理しない
         const tableIndex = parseInt(param["targetTableIndex"]);
         const guestIndex = parseInt(param["targetGuestIndex"]);
+
         if (!this._isExistGuestIndex(tableIndex, guestIndex)) {
             throw Error("Range Error - [tableIndex]" + tableIndex + " [guestIndex]" + guestIndex);
         }
@@ -353,7 +357,7 @@ export default class DataManager extends Observable {
 
         // dstにゲスト情報をコピーする
         const srcGuestInfo = this._tableList[srcTableIndex]["GuestList"][srcGuestIndex];
-        dstGuestList.splice(dstGuestList.length, 0, srcGuestInfo);
+        dstGuestList.splice(dstGuestIndex, 0, srcGuestInfo);
         this._tableList[dstTableIndex]["GuestList"] = dstGuestList;
 
         // srcのゲスト情報を削除する
