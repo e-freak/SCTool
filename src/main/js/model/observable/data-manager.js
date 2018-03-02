@@ -133,7 +133,7 @@ export default class DataManager extends Observable {
 
         // 存在しないインデックス指定は処理しない
         if (!this._isExistGuestIndex(targetTableIndex, targetGuestIndex)) {
-            throw Error("Range Error - [tableIndex]" + targetTableIndex + " [guestIndex]" + targetGuestIndex);
+            return;
         }
 
         let targetGuestList = this._tableList[targetTableIndex]["GuestList"];
